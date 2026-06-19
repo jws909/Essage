@@ -16,10 +16,11 @@ function App() {
 
   return (
     <>
-      <Navbar bg="light" data-bs-theme="light">
-        <Container>
-          <Navbar.Brand onClick={() => { navigate("/") }}>Essage</Navbar.Brand>
-          <Nav className="me-auto">
+      <Navbar bg="light" data-bs-theme="light" expand="md" className="px-4 py-3">
+        <Container className="d-flex justify-content-between align-items-center">
+          <Navbar.Brand onClick={() => { navigate("/") }} className="fw-bold text-uppercase">
+            Essage</Navbar.Brand>
+          <Nav className="me-auto" className="d-none d-md-flex gap-3">
             <Nav.Link onClick={() => { navigate("/") }}>홈</Nav.Link>
             <Nav.Link onClick={() => { navigate("/calendar") }}>일정</Nav.Link>
             <Nav.Link onClick={() => { navigate("/mypage") }}>마이페이지</Nav.Link>
