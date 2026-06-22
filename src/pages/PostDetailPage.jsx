@@ -1,8 +1,142 @@
 import '../css/PostDetailPage.css'
+import { useNavigate, useParams } from 'react-router';
+import { useState, useEffect } from 'react';
+import COMMENTS from '../data/commentData';
+import POSTS from '../data/postData';
 
-function PostDetailPage(){
+import { PersonCircle } from 'react-bootstrap-icons';
+
+function PostDetailPage() {
+
+    const navigate = useNavigate();
+
+    const { id } = useParams();
+
+    const post = POSTS.find(
+        post => post.id === Number(id)
+    );
+
+    const defaultComments =
+        COMMENTS.filter(comment => comment.postId === Number(id));
+
+    const savedComments = JSON.parse(
+        localStorage.getItem(`comments-${id}`)
+    );
+
+    const [comments, setComments] = useState(
+        savedComments || defaultComments
+    );
+
+    const [commentInput, setCommentInput] = useState('');
+
+    function addComment() {
+
+        if (commentInput.trim() === '') {
+            return;
+        }
+
+        const newComment = {
+            id: Date.now(),
+            nickname: "나",
+            timestamp: new Date().toLocaleString(),
+            text: commentInput
+        };
+
+        setComments([...comments, newComment]);
+        setCommentInput('');
+    }
+
+    useEffect(() => {
+            localStorage.setItem(
+                `comments-${id}`,
+                JSON.stringify(comments)
+            );
+        }, [comments, id]);
+
+
+
     return (
-        <h1>글 상세 페이지</h1>
+
+        <div className='detail-wrapper'>
+
+            <p className="back-btn" onClick={() => navigate("/")}>
+                ← 목록으로 돌아가기</p>
+
+            <div className='detail-card'>
+                <span className='category'>{post.category}</span>
+
+                <h3><strong>{post.title}</strong></h3>
+
+                <div className="post-info">
+                    <strong style={{ color: 'black' }}>{post.author}</strong>
+                    <span>{post.date}</span>
+                    <span>조회수 {post.views}</span>
+                </div>
+
+
+                <hr />
+                <br />
+
+                {
+                    post.paragraphs.map((paragraph, index) => (
+                        <p className="post-content" key={index}>{paragraph}</p>
+                    ))
+                }
+
+            </div>
+
+            <br />
+
+            <div className="comment-section">
+
+                <p style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                    댓글 <span style={{ color: '#2b6cff' }}>{comments.length}</span>
+                </p>
+
+                {
+                    comments.map(comment => (
+
+
+                        <div key={comment.id} className="comment-item">
+                            <div className="comment-header">
+                                <PersonCircle className="profile-icon" />
+
+                                <strong style={{ fontSize: '15px' }}> {comment.nickname}</strong>
+
+                                <span style={{ fontSize: '14px', color: '#4a4949' }}> {comment.timestamp}</span>
+                            </div>
+
+                            <p style={{ fontSize: '15px' }}>{comment.text}</p>
+
+                            <hr />
+
+                        </div>
+                    ))
+                }
+
+                <div className="comment-write">
+
+                    <textarea
+                        value={commentInput}
+                        onChange={(e) => setCommentInput(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault(); //줄바꿈 X
+                                addComment(); //댓글 등록
+                            }
+                        }}
+                        placeholder='댓글을 입력하세요'
+                    />
+
+                    <button onClick={addComment}>등록</button>
+
+                </div>
+
+
+            </div>
+        </div>
+
+
     );
 }
 

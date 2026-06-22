@@ -1,0 +1,92 @@
+.detail-wrapper {
+    max-width: 750px;
+    margin: 40px auto;
+}
+
+.back-btn {
+    cursor: pointer;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.detail-card {
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    padding: 32px;
+    background: white;
+}
+
+.category {
+    background: #eaf3ff;
+    color: #2b6cff;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.post-info {
+    display: flex;
+    gap: 20px;
+    color: gray;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.content {
+    line-height: 2;
+    min-height: 300px;
+}
+
+.container-detail {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.comment-write {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+
+    
+}
+
+.comment-write textarea {
+    flex: 1;
+    height: 60px;
+
+    border: 1px solid #2b6cff;
+    border-radius: 12px;
+
+    padding: 12px;
+    font-size: 14px;
+
+    resize: none;
+    outline: none;
+
+}
+
+.comment-write textarea:focus {
+    border-color: #2b6cff;
+}
+
+.comment-write button {
+    width: 80px;
+
+    border: none;
+    border-radius: 12px;
+
+    background-color: #2b6cff;
+    color: white;
+
+    font-weight: bold;
+    cursor: pointer;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: #9b9c9d;
+}
