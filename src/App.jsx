@@ -8,6 +8,7 @@ import NavigationBar from './components/NavigationBar';
 import HomePage from './pages/HomePage'
 import PostDetailPage from './pages/PostDetailPage'
 import PostWritePage from './pages/PostWritePage'
+import MyPage from './pages/MyPage';
 
 
 function App() {
@@ -22,6 +23,8 @@ function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='/detail/:id' element={<PostDetailPage />} />
           <Route path='/write' element={<PostWritePage />} />
+          <Route path='/mypage' element={<MyPage />} />
+
         </Routes>
       </div>
     </>

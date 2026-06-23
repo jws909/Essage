@@ -1,0 +1,102 @@
+.mypage-wrapper {
+    max-width: 750px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+
+.mypage-header {
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    padding: 32px;
+    background: white;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.mypage-update {
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    padding: 32px;
+    background: white;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+
+.mypage-profile-btn {
+    width: 120px;
+    height: 120px;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    background-color: #e9ecef;
+    /* bg-secondary 느낌 */
+    color: #495057;
+
+    transition: background-color 0.2s ease;
+}
+
+.mypage-post {
+    background: #eaf3ff;
+    color: #2b6cff;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.mypage-btn button {
+    width: 120px;
+    height: 40px;
+
+    border: none;
+    border-radius: 12px;
+
+    background-color: #2b6cff;
+    color: white;
+
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.mypage-btn {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.mypage-update input,
+.mypage-update textarea {
+    width: 100%;
+    padding: 12px 16px;
+
+    border: 1px solid #dcdfe4;
+    border-radius: 12px;
+
+    font-size: 14px;
+
+    box-sizing: border-box;
+
+    transition: border-color 0.2s ease;
+}
+
+
+.mypage-update input:focus,
+.mypage-update textarea:focus {
+    outline: none;
+    border-color: #2b6cff;
+}
+
+.mypage-update textarea {
+    height: 120px;
+    resize: none;
+}
