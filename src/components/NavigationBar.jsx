@@ -8,7 +8,7 @@ function NavigationBar() {
     let navigate = useNavigate();
 
     return (
-        <Navbar fixed="top" bg="light" expand="md" className="bg-white border-bottom py-1 nav-bar">
+        <Navbar fixed="top" bg="light" expand="md" className="bg-white border-bottom px-4 py-1 nav-bar">
             <Container fluid className="nav-con">
                 <Navbar.Brand onClick={() => { navigate("/") }} className="fw-bold text-lg" style={{cursor: 'pointer'}}>
                     <span className='text-primary'>E</span>ssage</Navbar.Brand>
@@ -20,15 +20,21 @@ function NavigationBar() {
                 </Nav>
 
                 <div className="d-flex align-items-center gap-2 gap-sm-3">
+                    <Nav.Link className="d-none d-sm-inline-flex login-btn" onClick={() => { navigate("/login") }}>
+                        로그인
+                    </Nav.Link>
+
                     <Button className="d-none d-sm-inline-flex gap-2 write-btn"
                         variant="primary" onClick={() => { navigate("/write") }}>
-                        <PencilSquare size={16} /> 글쓰기
+                        <PencilSquare size={14} /> 글쓰기
                     </Button>
 
                     <Button variant="secondary" className="rounded-circle d-flex align-items-center justify-content-center profile-btn" onClick={() => navigate("/mypage")}>
                         <Person size={20}/>
                     </Button>
                 </div>
+
+                
 
             </Container>
         </Navbar >
