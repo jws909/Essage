@@ -21,7 +21,7 @@
 
 .btn-login {
 
-    width: 300px;
+    width: 100%;
     height: 50px;
 
     border: none;
@@ -35,7 +35,7 @@
 }
 
 .input-box {
-    width: 300px;
+    width: 100%;
     height: 50px;
     font-size: 14px;
     margin-bottom: 10px;
@@ -58,7 +58,7 @@
     margin-top: 10px;
 }
 
-label {
+.login-info label {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
