@@ -14,6 +14,9 @@ import React, { useEffect, useState } from "react";
 import POSTS from './data/postData'
 import COMMENTS from './data/commentData'
 
+import Login from './pages/LoginPage';
+import LoginPage from './pages/LoginPage';
+
 
 
 function App() {
@@ -42,6 +45,7 @@ function App() {
             <Route path='/write' element={<PostWritePage />} />
             <Route path='/mypage' element={<MyPage />} />
             <Route path='/archive' element={<ArchivePage/>}/>
+            <Route path='/login' element={<LoginPage/>}/>
           </Routes>
         </div>
 
