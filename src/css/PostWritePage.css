@@ -38,7 +38,7 @@
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea{
   width: 100%;
   border: 1px solid #d1d5db;
   border-radius: 10px;
@@ -56,8 +56,14 @@
   min-height: 250px;
   resize: vertical;
 }
+.text-count {
+  text-align: right;
+  color: #6b7280;
+  font-size: 14px;
+  margin-top: 8px;
 
-/* Button */
+}
+
 .button-area {
   display: flex;
   justify-content: flex-end;
@@ -66,11 +72,14 @@
 
 .cancel-btn {
   border: none;
-  background: #eef2f7;
+  background: #d2d8df;
   color: #4b5563;
   padding: 12px 22px;
   border-radius: 10px;
   cursor: pointer;
+}
+.cancel-btn:hover {
+  background-color: #c1d2ff;
 }
 
 .submit-btn {
@@ -84,4 +93,14 @@
 
 .submit-btn:hover {
   background: #1d4ed8;
+}
+
+
+.choice {
+font-size: 14px;
+width :150px;
+height: 25px;
+/* display: flex; */
+/* justify-content: center; */
+/* align-items: center; */
 }
