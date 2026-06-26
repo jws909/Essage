@@ -1,5 +1,6 @@
 import '../css/SignupPage.css'
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router';
 
 function SignupPage() {
 
@@ -9,12 +10,14 @@ function SignupPage() {
 
     const [error, setError] = useState(false);
     const [name, setName] = useState('');
+    const navigate = useNavigate();
 
     function handleSignup(e) {
         e.preventDefault();
 
-        if(!password || !passwordCheck) {
+        if (!password || !passwordCheck) {
             setError('비밀번호를 입력하세요.')
+            return;
         }
 
         if (password !== passwordCheck) {
@@ -29,8 +32,19 @@ function SignupPage() {
 
         setError('');
 
+        const user = {
+            name,
+            email,
+            password
+        };
+
+        localStorage.setItem('user', JSON.stringify(user));
+
+        console.log(user);
+        console.log(localStorage.getItem('user'));
         
         alert('회원가입 성공');
+        navigate('/login');
     }
 
 
@@ -97,7 +111,8 @@ function SignupPage() {
                 <div className='signup-footer'>
 
                     <span>이미 계정이 있으신가요?</span>
-                    <a href="/login" target="_self" id="login">로그인</a>
+                    <Link to='/login' id='login'>
+                    로그인</Link>
 
                 </div>
 

@@ -1,23 +1,39 @@
 import '../css/LoginPage.css'
 import { useState } from 'react';
+import { Link } from 'react-router';
 
 
 function LoginPage() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(false);
+    const [error, setError] = useState('');
 
     function handleLogin(e) {
         e.preventDefault();
 
         if (!email || !password) {
-            console.log("에러 발생");
             setError(true);
             return;
         }
 
-        setError(false);
+        const savedUser = JSON.parse(localStorage.getItem('user'));
+
+        console.log("저장된 사용자:", savedUser);
+        console.log("입력 이메일:", email);
+        console.log("입력 비밀번호:", password);
+
+        if (
+            savedUser &&
+            savedUser.email === email &&
+            savedUser.password === password
+        ) {
+            setError(false);
+            alert('로그인 성공!');
+        } else {
+            setError(true);
+            alert('이메일 또는 비밀번호가 올바르지 않습니다.')
+        }
 
         // 로그인 처리
     }
@@ -39,7 +55,7 @@ function LoginPage() {
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="you@example.com"
                     />
-                    
+
                     <br />
                     <label htmlFor="password">비밀번호</label>
                     <input
@@ -51,7 +67,7 @@ function LoginPage() {
                     />
 
                     {error && (
-                        
+
                         <p className="error-message">
                             이메일과 비밀번호를 입력하세요.
                         </p>
@@ -67,7 +83,8 @@ function LoginPage() {
                 <div className='login-signup'>
 
                     <span>아직 계정이 없으신가요?</span>
-                    <a href="/signup" target="_self" id="signup">회원가입</a>
+                    <Link to='/signup' id='signup'>
+                    회원가입</Link>
 
                 </div>
 
