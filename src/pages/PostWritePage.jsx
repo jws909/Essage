@@ -1,15 +1,15 @@
 import '../css/PostWritePage.css'
 import { useEffect, useState } from "react";
-import loadPostData from '../utils/loadPostData';
+import usePostStore from '../store/usePostStore';
 
 function PostWritePage() {
-    const [category, setCategory] = useState("자유 게시판");
-    const [nickname, setNickkname] = useState("");
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
+    const [ category, setCategory ] = useState("자유 게시판");
+    const [ nickname, setNickkname ] = useState("");
+    const [ title, setTitle ] = useState("");
+    const [ content, setContent ] = useState("");
 
-    const [postData, setPostData] = useState(() => loadPostData());
-    const [lastPostId, setLastPostId ] = useState(localStorage.getItem("lastPostId"));
+    const lastPostId = usePostStore((s) => s.lastId);
+    const addPost = usePostStore((s) => s.addPost);
 
     function getToday() {
         const today = new Date();
@@ -28,20 +28,10 @@ function PostWritePage() {
             .filter(p => p.length > 0);
 
         return {
-            preview: paragraphs[0] || "",
+            preview: paragraphs[ 0 ] || "",
             paragraphs
         };
     }
-
-    const postId = Number(lastPostId) + 1;
-    const postCategory = category.split(" ")[0];
-    const postTitle = title;
-    const postAuthor = nickname;
-    const postDate = getToday();
-    const postViews = 2131;
-    const postText = parseText(content);
-    const postPreview = postText.preview;
-    const postParagraphs = postText.paragraphs;
 
     const handleSubmit = () => {
         if (!title.trim()) {
@@ -53,20 +43,16 @@ function PostWritePage() {
             return;
         }
 
-        postData.push({
-            id: postId,
-            category: postCategory,
-            title: postTitle,
-            author: postAuthor,
-            date: postDate,
-            views: postViews,
-            preview: postPreview,
-            paragraphs: postParagraphs
+        addPost({
+            id: lastPostId + 1,
+            category: category.split(" ")[ 0 ],
+            title: title,
+            author: nickname,
+            date: getToday(),
+            views: 2321,
+            preview: parseText(content).preview,
+            paragraphs: parseText(content).paragraphs,
         })
-
-        localStorage.setItem("postData", JSON.stringify(postData))
-
-        setLastPostId(localStorage.setItem("lastPostId", postId))
 
         alert("게시글이 등록 되었습니다.");
     };
