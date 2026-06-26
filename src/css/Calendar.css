@@ -1,0 +1,25 @@
+
+.row-cols-7>* {
+    flex: 0 0 auto;
+    width: calc(100% / 7);
+}
+
+.min-h-box {
+    min-height: 5rem;
+}
+
+@media (min-width: 576px) {
+    .min-h-box {
+        min-height: 7rem;
+    }
+}
+
+.custom-text {
+    font-size: 0.75rem;
+}
+
+@media (min-width: 576px) {
+    .custom-text {
+        font-size: 0.875rem;
+    }
+}
