@@ -1,6 +1,7 @@
 import '../css/LoginPage.css'
 import { useState } from 'react';
 import { Link } from 'react-router';
+import useAccountStore from '../store/useAccountStore';
 
 
 function LoginPage() {
@@ -8,6 +9,8 @@ function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const accounts = useAccountStore((s)=>s.accounts);
+    const login = useAccountStore((s)=>s.login);
 
     function handleLogin(e) {
         e.preventDefault();
@@ -17,22 +20,12 @@ function LoginPage() {
             return;
         }
 
-        const savedUser = JSON.parse(localStorage.getItem('user'));
-
-        console.log("저장된 사용자:", savedUser);
-        console.log("입력 이메일:", email);
-        console.log("입력 비밀번호:", password);
-
-        if (
-            savedUser &&
-            savedUser.email === email &&
-            savedUser.password === password
-        ) {
+        if(login(email, password)){
             setError(false);
             alert('로그인 성공!');
         } else {
             setError(true);
-            alert('이메일 또는 비밀번호가 올바르지 않습니다.')
+            alert('이메일 또는 비밀번호가 올바르지 않습니다.');
         }
 
         // 로그인 처리
