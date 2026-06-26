@@ -8,7 +8,7 @@ function NavigationBar() {
     let navigate = useNavigate();
 
     return (
-        <Navbar fixed="top" bg="light" expand="md" className="bg-white border-bottom px-4 py-1 nav-bar">
+        <Navbar fixed="top" expand="md" className="nav-bar px-4 py-1">
             <Container fluid className="nav-con">
                 <Navbar.Brand onClick={() => { navigate("/") }} className="fw-bold text-lg" style={{cursor: 'pointer'}}>
                     <span className='text-primary'>E</span>ssage</Navbar.Brand>

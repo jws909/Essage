@@ -15,7 +15,7 @@ import POSTS from './data/postData'
 import COMMENTS from './data/commentData'
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
-
+import CalendarPage from './pages/CalendarPage';
 
 
 function App() {
@@ -43,10 +43,10 @@ function App() {
             <Route path='/detail/:id' element={<PostDetailPage />} />
             <Route path='/write' element={<PostWritePage />} />
             <Route path='/mypage' element={<MyPage />} />
-            <Route path='/archive' element={<ArchivePage/>}/>
-            <Route path='/login' element={<LoginPage/>}/>
+            <Route path='/archive' element={<ArchivePage />} />
+            <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<SignupPage/>}/>
-
+            <Route path='/calendar' element={<CalendarPage />} />
           </Routes>
         </div>
 

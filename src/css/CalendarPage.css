@@ -1,0 +1,90 @@
+.custom-heading {
+    font-size: 1.5rem;
+    /* text-2xl */
+    letter-spacing: -0.025em;
+}
+
+@media (min-width: 576px) {
+    .custom-heading {
+        font-size: 1.875rem;
+        /* text-3xl */
+    }
+}
+
+@media (min-width: 576px) {
+    .sticky-sm {
+        position: sticky;
+        top: 5rem;
+    }
+}
+
+.custom-date-input {
+    height: 44px;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    transition: border-color 0.2s ease;
+}
+
+.custom-date-input:focus {
+    border-color: #0d6efd;
+    box-shadow: none;
+}
+
+.custom-text-input {
+    height: 44px;
+    border-radius: .5rem;
+    font-size: .875rem;
+}
+
+.custom-text-input:focus {
+    border-color: var(--bs-primary);
+    box-shadow: none;
+}
+
+.custom-textarea {
+    padding: 0.75rem 1rem;
+    /* py-3 px-4 */
+    font-size: 0.875rem;
+    /* text-sm */
+    line-height: 1.625;
+    /* leading-relaxed */
+    border-radius: 0.5rem;
+    /* rounded-lg */
+    resize: vertical;
+    /* resize-y */
+    transition: border-color .2s ease;
+}
+
+.custom-textarea::placeholder {
+    color: var(--bs-secondary-color);
+}
+
+.custom-textarea:focus {
+    border-color: var(--bs-primary);
+    box-shadow: none;
+}
+
+.custom-submit-btn {
+    height: 44px;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    /* gap-1.5 */
+
+    transition: background-color .2s ease,
+        border-color .2s ease;
+}
+
+.custom-submit-btn:focus,
+.custom-submit-btn:active:focus {
+    box-shadow: none;
+}
+
+.custom-submit-btn:disabled {
+    opacity: .5;
+}
