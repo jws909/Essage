@@ -106,4 +106,6 @@ let COMMENTS = [
     },
 ]
 
+export let lastCommentId = 15;
+
 export default COMMENTS;

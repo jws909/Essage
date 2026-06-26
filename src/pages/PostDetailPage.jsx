@@ -1,12 +1,18 @@
 import '../css/PostDetailPage.css'
 import { useNavigate, useParams } from 'react-router';
 import { useState, useEffect } from 'react';
-import COMMENTS from '../data/commentData';
-import POSTS from '../data/postData';
+import usePostStore from '../store/usePostStore';
+import useCommentStore from '../store/useCommentStore';
 
 import { PersonCircle } from 'react-bootstrap-icons';
 
+
 function PostDetailPage() {
+
+    const POSTS = usePostStore((s) => s.posts);
+    const COMMENTS = useCommentStore((s) => s.comments);
+    const addComment = useCommentStore((s) => s.addComment);
+    const lastCommentId = useCommentStore((s) => s.lastId);
 
     const navigate = useNavigate();
 
@@ -16,44 +22,28 @@ function PostDetailPage() {
         post => post.id === Number(id)
     );
 
-    const defaultComments =
+    const selectedComments =
         COMMENTS.filter(comment => comment.postId === Number(id));
 
-    const savedComments = JSON.parse(
-        localStorage.getItem(`comments-${id}`)
-    );
+    const [ commentInput, setCommentInput ] = useState('');
 
-    const [comments, setComments] = useState(
-        savedComments || defaultComments
-    );
-
-    const [commentInput, setCommentInput] = useState('');
-
-    function addComment() {
+    function submitComment() {
 
         if (commentInput.trim() === '') {
             return;
         }
 
         const newComment = {
-            id: Date.now(),
+            postId: Number(id),
+            id: lastCommentId + 1,
             nickname: "나",
             timestamp: new Date().toLocaleString(),
             text: commentInput
         };
 
-        setComments([...comments, newComment]);
+        addComment(newComment);
         setCommentInput('');
     }
-
-    useEffect(() => {
-            localStorage.setItem(
-                `comments-${id}`,
-                JSON.stringify(comments)
-            );
-        }, [comments, id]);
-
-
 
     return (
 
@@ -90,11 +80,11 @@ function PostDetailPage() {
             <div className="comment-section">
 
                 <p style={{ fontSize: '18px', fontWeight: 'bold' }}>
-                    댓글 <span style={{ color: '#2b6cff' }}>{comments.length}</span>
+                    댓글 <span style={{ color: '#2b6cff' }}>{selectedComments.length}</span>
                 </p>
 
                 {
-                    comments.map(comment => (
+                    selectedComments.map(comment => (
 
 
                         <div key={comment.id} className="comment-item">
@@ -122,13 +112,13 @@ function PostDetailPage() {
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') {
                                 e.preventDefault(); //줄바꿈 X
-                                addComment(); //댓글 등록
+                                submitComment(); //댓글 등록
                             }
                         }}
                         placeholder='댓글을 입력하세요'
                     />
 
-                    <button onClick={addComment}>등록</button>
+                    <button onClick={submitComment}>등록</button>
 
                 </div>
 

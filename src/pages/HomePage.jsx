@@ -1,12 +1,12 @@
 import '../css/HomePage.css'
 import { Megaphone, Search } from 'react-bootstrap-icons'
 import Alert from 'react-bootstrap/Alert';
-import loadPostData from '../utils/loadPostData'
 import React, { useEffect, useState } from "react";
 import PostCard from '../components/PostCard';
+import usePostStore from '../store/usePostStore'
 
 function HomePage() {
-    const [ postData, setPostData ] = useState(() => loadPostData());
+    const postData = usePostStore((s) => s.posts);
 
     return (
         <>
