@@ -1,11 +1,47 @@
 import '../css/PostWritePage.css'
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import loadPostData from '../utils/loadPostData';
 
 function PostWritePage() {
-    const [category, setCategory] = useState("자유게시판");
+    const [category, setCategory] = useState("자유 게시판");
     const [nickname, setNickkname] = useState("");
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+
+    const [postData, setPostData] = useState(() => loadPostData());
+    const [lastPostId, setLastPostId ] = useState(localStorage.getItem("lastPostId"));
+
+    function getToday() {
+        const today = new Date();
+
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const day = String(today.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+    }
+
+    function parseText(text) {
+        const paragraphs = text
+            .split("\n")
+            .map(p => p.trim())
+            .filter(p => p.length > 0);
+
+        return {
+            preview: paragraphs[0] || "",
+            paragraphs
+        };
+    }
+
+    const postId = Number(lastPostId) + 1;
+    const postCategory = category.split(" ")[0];
+    const postTitle = title;
+    const postAuthor = nickname;
+    const postDate = getToday();
+    const postViews = 2131;
+    const postText = parseText(content);
+    const postPreview = postText.preview;
+    const postParagraphs = postText.paragraphs;
 
     const handleSubmit = () => {
         if (!title.trim()) {
@@ -16,6 +52,22 @@ function PostWritePage() {
             alert("본문 내용을 입력해주세요");
             return;
         }
+
+        postData.push({
+            id: postId,
+            category: postCategory,
+            title: postTitle,
+            author: postAuthor,
+            date: postDate,
+            views: postViews,
+            preview: postPreview,
+            paragraphs: postParagraphs
+        })
+
+        localStorage.setItem("postData", JSON.stringify(postData))
+
+        setLastPostId(localStorage.setItem("lastPostId", postId))
+
         alert("게시글이 등록 되었습니다.");
     };
 
@@ -46,7 +98,7 @@ function PostWritePage() {
 
                         <select className='ms-2 choice' value={category}
                             onChange={(e) => setCategory(e.target.value)}>
-                            <option>-공지사항-</option>
+                            <option>공지 게시판</option>
                             <option>자유 게시판</option>
                             <option>질문 게시판</option>
                             <option>정보 게시판</option>
@@ -73,7 +125,7 @@ function PostWritePage() {
                     <div className='form-group'>
                         <label>본문내용</label>
                         <textarea placeholder='우리 팀원들과 공유할 내용을 입력하세요.' maxLength={1000}
-                        value={content} onChange={(e) => setContent(e.target.value)} />
+                            value={content} onChange={(e) => setContent(e.target.value)} />
 
                         <p className='text-count'>{content.length}/1000자</p>
                     </div>

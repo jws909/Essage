@@ -85,4 +85,6 @@ let POSTS = [
     },
 ]
 
+export let lastPostId = 6;
+
 export default POSTS;

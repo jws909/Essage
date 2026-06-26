@@ -11,7 +11,7 @@ import MyPage from './pages/MyPage';
 import ArchivePage from './pages/ArchivePage';
 import Footer from './components/Footer';
 import React, { useEffect, useState } from "react";
-import POSTS from './data/postData'
+import POSTS, {lastPostId} from './data/postData'
 import COMMENTS from './data/commentData'
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -22,11 +22,13 @@ function App() {
   const [ count, setCount ] = useState(0)
   const [ postData, setPostData ] = useState([]);
   const [ commentData, setCommentData ] = useState([]);
+  const [ lastPost, setLastPost ] = useState(0);
 
   useEffect(() => {
     localStorage.clear();
     localStorage.setItem("postData", JSON.stringify(POSTS));
     localStorage.setItem("commentData", JSON.stringify(COMMENTS));
+    localStorage.setItem("lastPostId", lastPostId);
     setPostData(POSTS);
     setCommentData(COMMENTS);
   }, []);
