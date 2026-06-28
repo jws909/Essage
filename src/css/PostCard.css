@@ -1,5 +1,7 @@
 .post-card-container {
     cursor: pointer;
+    width: 100%;
+    min-width: 0;
 }
 
 .post-category {
@@ -21,7 +23,6 @@
 .custom-title {
     font-size: 1rem;
     transition: color .2s ease;
-    text-wrap: pretty;
 }
 
 .card-hover:hover .custom-title {
