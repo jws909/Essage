@@ -1,20 +1,29 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import POSTS, { lastPostId } from '../data/postData'
 
-const usePostStore = create((set) => ({
-    posts: POSTS,
-    lastId: lastPostId,
+const usePostStore = create(
+    persist(
+        (set) => ({
+            posts: POSTS,
+            lastId: lastPostId,
 
-    addPost: (post) =>
-        set((state) => ({
-            posts: [ ...state.posts, post ],
-            lastId: post.id,
-        })),
+            // 글 작성
+            addPost: (post) =>
+                set((state) => ({
+                    posts: [ ...state.posts, post ],
+                    lastId: post.id,
+                })),
 
-    // deletePost: (id) =>
-    //     set((state) => ({
-    //         posts: state.posts.filter((p) => p.id !== id),
-    //     })),
-}));
+            // deletePost: (id) =>
+            //     set((state) => ({
+            //         posts: state.posts.filter((p) => p.id !== id),
+            //     })),
+        }),
+        {
+            name: "post-storage", // localStorage에 저장될 key
+        }
+    )
+);
 
 export default usePostStore;
