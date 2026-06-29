@@ -2,6 +2,7 @@ import '../css/PostWritePage.css'
 import { useEffect, useState } from "react";
 import usePostStore from '../store/usePostStore';
 import {useNavigate}  from "react-router";
+import useAccountStore from '../store/useAccountStore';
 
 function PostWritePage() {
     const [ category, setCategory ] = useState("자유 게시판");
@@ -12,6 +13,8 @@ function PostWritePage() {
 
     const lastPostId = usePostStore((s) => s.lastId);
     const addPost = usePostStore((s) => s.addPost);
+
+    const currentUser = useAccountStore((s) => s.user);
 
     function getToday() {
         const today = new Date();
@@ -44,12 +47,16 @@ function PostWritePage() {
             alert("본문 내용을 입력해주세요");
             return;
         }
+        if (currentUser === null){
+            alert("로그인을 해주세요.")
+            return;
+        }
 
         addPost({
             id: lastPostId + 1,
             category: category.split(" ")[ 0 ],
             title: title,
-            author: nickname,
+            author: currentUser.name,
             date: getToday(),
             views: 2321,
             preview: parseText(content).preview,
@@ -96,12 +103,12 @@ function PostWritePage() {
                     </div>
 
                     {/* 닉네임 */}
-                    <div className='form-group'>
+                    {/* <div className='form-group'>
                         <label>작성자 닉네임</label>
-                        <input type='text' placeholder='작성자 닉네임을 입력하세요' value={nickname} onChange={(e) =>
+                        <input type='text'  value={nickname} onChange={(e) =>
                             setNickname(e.target.value)
                         } />
-                    </div>
+                    </div> */}
                     {/* 제목 */}
                     <div className='form-group'>
                         <label>글제목</label>
