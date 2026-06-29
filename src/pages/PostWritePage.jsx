@@ -1,12 +1,14 @@
 import '../css/PostWritePage.css'
 import { useEffect, useState } from "react";
 import usePostStore from '../store/usePostStore';
+import {useNavigate}  from "react-router";
 
 function PostWritePage() {
     const [ category, setCategory ] = useState("자유 게시판");
-    const [ nickname, setNickkname ] = useState("");
+    const [ nickname, setNickname ] = useState("");
     const [ title, setTitle ] = useState("");
     const [ content, setContent ] = useState("");
+    const navigate = useNavigate();
 
     const lastPostId = usePostStore((s) => s.lastId);
     const addPost = usePostStore((s) => s.addPost);
@@ -55,6 +57,7 @@ function PostWritePage() {
         })
 
         alert("게시글이 등록 되었습니다.");
+        navigate("/");
     };
 
     const handleCancel = () => {
@@ -96,7 +99,7 @@ function PostWritePage() {
                     <div className='form-group'>
                         <label>작성자 닉네임</label>
                         <input type='text' placeholder='작성자 닉네임을 입력하세요' value={nickname} onChange={(e) =>
-                            setNickkname(e.target.value)
+                            setNickname(e.target.value)
                         } />
                     </div>
                     {/* 제목 */}
