@@ -5,6 +5,7 @@ import usePostStore from '../store/usePostStore';
 import useCommentStore from '../store/useCommentStore';
 
 import { PersonCircle } from 'react-bootstrap-icons';
+import useAccountStore from '../store/useAccountStore';
 
 
 function PostDetailPage() {
@@ -13,6 +14,8 @@ function PostDetailPage() {
     const COMMENTS = useCommentStore((s) => s.comments);
     const addComment = useCommentStore((s) => s.addComment);
     const lastCommentId = useCommentStore((s) => s.lastId);
+
+    const user = useAccountStore((s)=> s.user);
 
     const navigate = useNavigate();
 
@@ -33,10 +36,15 @@ function PostDetailPage() {
             return;
         }
 
+        if(!user) {
+            alert("로그인 후 댓글을 작성할 수 있습니다.");
+            return;
+        }
+
         const newComment = {
             postId: Number(id),
             id: lastCommentId + 1,
-            nickname: "나",
+            nickname: user?.name || "나",
             timestamp: new Date().toLocaleString(),
             text: commentInput
         };
