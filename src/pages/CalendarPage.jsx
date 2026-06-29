@@ -3,8 +3,36 @@ import '../css/CalendarPage.css'
 import Calendar from '../components/Calendar';
 import { CalendarPlus } from 'react-bootstrap-icons'
 import Button from 'react-bootstrap/Button';
+import LeftButton from '../components/LeftButton';
+import RightButton from '../components/RightButton';
+import { categoryColor, getCategoryLabel } from "../data/eventStyle";
+import useEventStore from '../store/useEventStore';
 
 function CalendarPage() {
+    const addEvent = useEventStore((state) => state.addEvent);
+
+    const [ selectedDate, setSelectedDate ] = useState("");
+    const [ title, setTitle ] = useState("");
+    const [ category, setCategory ] = useState("");
+    const [ desc, setDesc ] = useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (!selectedDate || !title || !category || !desc) return;
+
+        addEvent(selectedDate, {
+            text: title,
+            color: category,
+            description: desc,
+        });
+
+        // 초기화
+        setSelectedDate("");
+        setTitle("");
+        setCategory("");
+        setDesc("");
+    };
 
     const [ calendar, setCalendar ] = useState({
         year: new Date().getFullYear(),
@@ -71,37 +99,92 @@ function CalendarPage() {
             <div className="row g-4">
                 <div className="col-12 col-lg-8">
                     <div className="mb-3 d-flex align-items-center justify-content-between">
+                        <LeftButton onClick={prevMonth} />
                         <h2 className="fw-bold text-body" style={{ fontSize: "18px" }}>
-                            {calendar.year + "년 " + calendar.month + "월"}
+                            {calendar.year + "년 " + (calendar.month + 1) + "월"}
                         </h2>
+                        <RightButton onClick={nextMonth} />
                     </div>
                     <Calendar calendarDays={calendarDays} />
                 </div>
                 <div className="col-12 col-lg-4">
-                    <form className="border bg-body p-4 sticky-sm"
+                    <form className="border bg-body p-4 sticky-sm" onSubmit={handleSubmit}
                         style={{ borderRadius: "1rem" }}>
                         <div className="mb-4 d-flex align-items-center gap-2">
                             <CalendarPlus size={20} className="text-primary" />
                             <h2 className="fs-6 fw-bold text-body">새로운 일정 등록</h2>
                         </div>
+
+                        {/* 날짜 */}
                         <div className="mb-3">
                             <label htmlFor="event-date" className="d-block fw-semibold text-body mb-1"
                                 style={{ fontSize: "0.875rem" }}>날짜</label>
-                            <input id="event-date" type="date"
-                                className="form-control custom-date-input"></input>
+                            <input
+                                id="event-date"
+                                type="date"
+                                className="form-control custom-date-input"
+                                value={selectedDate}
+                                onChange={(e) => setSelectedDate(e.target.value)}
+                            />
                         </div>
+
+                        {/* 제목 */}
                         <div className="mb-3">
                             <label htmlFor="event-title" className="d-block fw-semibold text-body mb-1"
                                 style={{ fontSize: "0.875rem" }}>일정 제목</label>
-                            <input id="event-title" type="text" placeholder="예) 정기 회의"
-                                className="form-control custom-text-input"></input>
+                            <input
+                                id="event-title"
+                                type="text"
+                                placeholder="예) 정기 회의"
+                                className="form-control custom-text-input"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
                         </div>
+
+                        {/* 카테고리 */}
+                        <div className="mb-3">
+                            <label
+                                htmlFor="event-category"
+                                className="d-block fw-semibold text-body mb-1"
+                                style={{ fontSize: "0.875rem" }}
+                            >
+                                카테고리
+                            </label>
+
+                            <select
+                                id="event-category"
+                                className="form-select custom-text-input"
+                                defaultValue=""
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                            >
+                                <option value="" disabled>
+                                    카테고리를 선택하세요
+                                </option>
+                                {Object.keys(categoryColor).map((key) => (
+                                    <option key={key} value={key}>
+                                        {getCategoryLabel(key)}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {/* 설명 */}
                         <div className="mb-5">
                             <label htmlFor="event-desc" className="d-block fw-semibold text-body mb-1"
                                 style={{ fontSize: "0.875rem" }}>일정 설명</label>
-                            <textarea id="event-desc" rows={4} placeholder="일정에 대한 간단한 설명을 입력하세요."
-                                className="form-control custom-textarea"></textarea>
+                            <textarea
+                                id="event-desc"
+                                rows={4}
+                                placeholder="일정에 대한 간단한 설명을 입력하세요."
+                                className="form-control custom-textarea"
+                                value={desc}
+                                onChange={(e) => setDesc(e.target.value)}
+                            />
                         </div>
+
+                        {/* 제출 버튼 */}
                         <Button
                             type="submit"
                             variant="primary"
