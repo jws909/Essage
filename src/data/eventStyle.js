@@ -8,6 +8,20 @@ export const categoryColor = {
     social: "social"    //소셜
 };
 
+export const getCategoryLabel = (key) => {
+    const labels = {
+        meeting: "회의",
+        task: "작업",
+        progress: "진행 중",
+        done: "완료",
+        hold: "보류",
+        urgent: "긴급",
+        social: "소셜",
+    };
+
+    return labels[key] ?? key;
+};
+
 export const badgeTheme = {
     primary: {
         bg: "rgba(13,110,253,0.15)",
