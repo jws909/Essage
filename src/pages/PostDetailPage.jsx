@@ -15,7 +15,8 @@ function PostDetailPage() {
     const addComment = useCommentStore((s) => s.addComment);
     const lastCommentId = useCommentStore((s) => s.lastId);
 
-    const user = useAccountStore((s)=> s.user);
+    const user = useAccountStore((s) => s.user);
+    const getName = useAccountStore((s) => s.getName);
 
     const navigate = useNavigate();
 
@@ -36,7 +37,7 @@ function PostDetailPage() {
             return;
         }
 
-        if(!user) {
+        if (!user) {
             alert("로그인 후 댓글을 작성할 수 있습니다.");
             return;
         }
@@ -44,7 +45,7 @@ function PostDetailPage() {
         const newComment = {
             postId: Number(id),
             id: lastCommentId + 1,
-            nickname: user?.name || "나",
+            author: user?.email || "나",
             timestamp: new Date().toLocaleString(),
             text: commentInput
         };
@@ -66,7 +67,7 @@ function PostDetailPage() {
                 <h3><strong>{post.title}</strong></h3>
 
                 <div className="post-info">
-                    <strong style={{ color: 'black' }}>{post.author}</strong>
+                    <strong style={{ color: 'black' }}>{getName(post.author)}</strong>
                     <span>{post.date}</span>
                     <span>조회수 {post.views}</span>
                 </div>
@@ -99,7 +100,7 @@ function PostDetailPage() {
                             <div className="comment-header">
                                 <PersonCircle className="profile-icon" />
 
-                                <strong style={{ fontSize: '15px' }}> {comment.nickname}</strong>
+                                <strong style={{ fontSize: '15px' }}> {getName(comment.author)}</strong>
 
                                 <span style={{ fontSize: '14px', color: '#4a4949' }}> {comment.timestamp}</span>
                             </div>
