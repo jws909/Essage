@@ -7,43 +7,57 @@ import Button from 'react-bootstrap/Button';
 function CalendarPage() {
 
     const [ calendar, setCalendar ] = useState({
-        year: 0,
-        month: 0,
-        lastDay: 0,
-        firstDayWeek: 0,
+        year: new Date().getFullYear(),
+        month: new Date().getMonth(), // 0부터 시작
     });
 
     const [ calendarDays, setCalendarDays ] = useState([]);
 
     useEffect(() => {
-        const today = new Date();
-
-        const year = today.getFullYear();
-        const month = today.getMonth();
+        const { year, month } = calendar;
 
         const lastDay = new Date(year, month + 1, 0).getDate();
         const firstDayWeek = new Date(year, month, 1).getDay();
 
-        setCalendar({
-            year,
-            month: month + 1,
-            lastDay,
-            firstDayWeek,
-        });
-
         const days = [];
-        // 앞 빈칸
+
         for (let i = 0; i < firstDayWeek; i++) {
             days.push(null);
         }
 
-        // 날짜
-        for (let i = 1; i <= lastDay; i++) {
-            days.push(i);
+        for (let day = 1; day <= lastDay; day++) {
+            days.push({
+                day,
+                date: `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
+            });
         }
 
         setCalendarDays(days);
-    }, []);
+    }, [ calendar.year, calendar.month ]);
+
+    // 이전 달로 이동
+    const prevMonth = () => {
+        setCalendar((prev) => {
+            const date = new Date(prev.year, prev.month - 1);
+
+            return {
+                year: date.getFullYear(),
+                month: date.getMonth(),
+            };
+        });
+    };
+
+    // 다음 달로 이동
+    const nextMonth = () => {
+        setCalendar((prev) => {
+            const date = new Date(prev.year, prev.month + 1);
+
+            return {
+                year: date.getFullYear(),
+                month: date.getMonth(),
+            };
+        });
+    };
 
     return (
         <div>

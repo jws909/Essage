@@ -45,7 +45,7 @@ function HomePage() {
                             .slice()
                             .reverse()
                             .map(post => (
-                                <div key={post.id} className="col-12 col-sm-6 col-lg-4 d-flex">
+                                <div key={post.id} className="col-12 col-sm-6 col-lg-4">
                                     <PostCard post={post} />
                                 </div>
                             ))}
