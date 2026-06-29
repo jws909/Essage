@@ -1,0 +1,85 @@
+.file-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    transition: 2s;
+}
+
+.file-card:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
+}
+
+.file-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.file-info h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.file-info span {
+    display: block;
+    margin-top: 5px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.file-info p {
+    margin-top: 5px;
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+.fileIcon {
+    width: 46px;
+    height: 46px;
+    padding: 8px;
+    border-radius: 12px;
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.file-right {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-download,
+.btn-delete {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-download {
+    background-color: #2563eb;
+    color: white;
+}
+
+.btn-download:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-delete {
+    background-color: #ef4444;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #dc2626;
+
+}
