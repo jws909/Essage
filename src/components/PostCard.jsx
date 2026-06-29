@@ -1,10 +1,13 @@
 import { useNavigate } from 'react-router';
 import '../css/PostCard.css'
 import { Badge } from 'react-bootstrap';
+import useAccountStore from "../store/useAccountStore";
 
 function PostCard({ post }) {
 
     let navigate = useNavigate();
+
+    const getName = useAccountStore((s) => s.getName);
 
     return (
         <div
@@ -37,7 +40,7 @@ function PostCard({ post }) {
 
                     {/* BOTTOM 영역 (고정 footer) */}
                     <div className="mt-auto d-flex align-items-center justify-content-between border-top pt-3 small text-secondary">
-                        <span className="fw-medium text-body">{post.author}</span>
+                        <span className="fw-medium text-body">{getName(post.author)}</span>
                         <time dateTime={post.date}>{post.date}</time>
                     </div>
 
