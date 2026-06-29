@@ -105,7 +105,11 @@ function CalendarPage() {
                         </h2>
                         <RightButton onClick={nextMonth} />
                     </div>
-                    <Calendar calendarDays={calendarDays} />
+                    <Calendar 
+                        calendarDays={calendarDays}
+                        selectedDate={selectedDate}
+                        onDateClick={setSelectedDate} 
+                    />
                 </div>
                 <div className="col-12 col-lg-4">
                     <form className="border bg-body p-4 sticky-sm" onSubmit={handleSubmit}
@@ -155,7 +159,6 @@ function CalendarPage() {
                             <select
                                 id="event-category"
                                 className="form-select custom-text-input"
-                                defaultValue=""
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
                             >

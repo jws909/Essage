@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import '../css/Calendar.css'
-import Badge from "react-bootstrap/Badge";
+import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { categoryColor, badgeTheme } from "../data/eventStyle";
 import useEventStore from "../store/useEventStore";
 
-function Calendar({ calendarDays }) {
+function Calendar({ calendarDays, selectedDate, onDateClick }) {
+
+    const MAX_VISIBLE = 2;
+    const [ expandedDate, setExpandedDate ] = useState(null);
+    const toggleExpand = (date) => {
+        setExpandedDate(prev => prev === date ? null : date);
+    };
 
     const events = useEventStore((state) => state.events);
     const getEventsByDate = useEventStore((state) => state.getEventsByDate);
@@ -49,27 +55,81 @@ function Calendar({ calendarDays }) {
 
                         const dayEvents = getEventsByDate(calendarDay.date);
 
+                        const isExpanded = expandedDate === calendarDay.date;
+
+                        const visibleEvents = isExpanded
+                            ? dayEvents
+                            : dayEvents.slice(0, MAX_VISIBLE);
+
+                        const hiddenCount = dayEvents.length - MAX_VISIBLE;
+
                         return (
                             <div className="col" key={calendarDay.date}>
-                                <div className="border rounded-3 bg-body p-1 p-sm-2 min-h-box">
+                                <div
+                                    className={`calendar-day rounded-3 bg-body p-1 p-sm-2 
+                                                min-h-box 
+                                                ${isExpanded ? "expanded" : ""}
+                                                ${selectedDate === calendarDay.date ? "selected-day" : ""}
+                                            `}
+                                    onClick={() => onDateClick(calendarDay.date)}
+                                >
                                     <span className="fw-medium">{calendarDay.day}</span>
 
                                     <div className="mt-1 d-flex flex-column gap-1">
-                                        {dayEvents.map((evt, i) => (
-                                            <Badge
+                                        {visibleEvents.map((evt, i) => (
+                                            <OverlayTrigger
                                                 key={i}
-                                                bg="undefined"
-                                                className="fw-medium text-truncate"
-                                                style={{
-                                                    fontSize: "12px",
-                                                    color: badgeTheme[ categoryColor[ evt.color ] ].text,
-                                                    backgroundColor: badgeTheme[ categoryColor[ evt.color ] ].bg,
-                                                    borderRadius: "4px",
+                                                placement="top"
+                                                overlay={
+                                                    <Tooltip
+                                                        id={`tooltip-${calendarDay.date}-${i}`}
+                                                        className="custom-tooltip"
+                                                    >
+                                                        <div
+                                                            style={{ color: "#fff" }}
+                                                        >
+                                                            {evt.description}
+                                                        </div>
+                                                    </Tooltip>
+                                                }
+                                            >
+                                                <Badge
+                                                    bg="undefined"
+                                                    className="fw-medium text-truncate"
+                                                    style={{
+                                                        fontSize: "12px",
+                                                        color: badgeTheme[ categoryColor[ evt.color ] ].text,
+                                                        backgroundColor: badgeTheme[ categoryColor[ evt.color ] ].bg,
+                                                        borderRadius: "4px",
+                                                    }}
+                                                >
+                                                    {evt.text}
+                                                </Badge>
+                                            </OverlayTrigger>
+                                        ))}
+
+                                        {hiddenCount > 0 && !isExpanded && (
+                                            <div
+                                                className="more-badge text-primary small"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    toggleExpand(calendarDay.date);
                                                 }}
                                             >
-                                                {evt.text}
-                                            </Badge>
-                                        ))}
+                                                +{hiddenCount} more
+                                            </div>
+                                        )}
+                                        {isExpanded && dayEvents.length > MAX_VISIBLE && (
+                                            <div
+                                                className="more-badge text-muted small"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    toggleExpand(calendarDay.date);
+                                                }}
+                                            >
+                                                show less
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>

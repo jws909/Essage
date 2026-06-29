@@ -1,16 +1,20 @@
-
 .row-cols-7>* {
     flex: 0 0 auto;
     width: calc(100% / 7);
 }
 
 .min-h-box {
-    min-height: 5rem;
+    height: 5rem;
+    overflow: hidden;
+}
+
+.min-h-box.expanded {
+    height: auto;
 }
 
 @media (min-width: 576px) {
     .min-h-box {
-        min-height: 7rem;
+        height: 7rem;
     }
 }
 
@@ -22,4 +26,49 @@
     .custom-text {
         font-size: 0.875rem;
     }
+}
+
+.calendar-day {
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition:
+        all 0.2s ease,
+        background-color .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.calendar-day:hover {
+    background-color: #f1f5ff;
+    border-color: #b6d4fe;
+}
+
+.selected-day {
+    background-color: #e7f1ff;
+    border-color: #0d6efd;
+}
+
+/* 선택된 애는 hover 영향 제거 */
+.selected-day:hover {
+    background: transparent;
+    border-color: #0d6efd;
+}
+
+.custom-tooltip .tooltip-inner {
+    background-color: #2b2f33;
+    color: #f8f9fa;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 12px;
+    padding: 8px 10px;
+    border-radius: 8px;
+}
+
+.more-badge {
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.more-badge:hover {
+    background: #f1f5ff;
 }
