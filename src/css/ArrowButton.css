@@ -1,0 +1,8 @@
+.arrow-button {
+    transition: all 0.15s ease;
+    background-color: transparent;
+}
+
+.arrow-button.pressed {
+    transform: scale(0.96);
+}

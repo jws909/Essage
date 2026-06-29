@@ -3,6 +3,8 @@ import '../css/CalendarPage.css'
 import Calendar from '../components/Calendar';
 import { CalendarPlus } from 'react-bootstrap-icons'
 import Button from 'react-bootstrap/Button';
+import LeftButton from '../components/LeftButton';
+import RightButton from '../components/RightButton';
 
 function CalendarPage() {
 
@@ -71,9 +73,11 @@ function CalendarPage() {
             <div className="row g-4">
                 <div className="col-12 col-lg-8">
                     <div className="mb-3 d-flex align-items-center justify-content-between">
+                        <LeftButton onClick={prevMonth} />
                         <h2 className="fw-bold text-body" style={{ fontSize: "18px" }}>
-                            {calendar.year + "년 " + calendar.month + "월"}
+                            {calendar.year + "년 " + (calendar.month + 1) + "월"}
                         </h2>
+                        <RightButton onClick={nextMonth} />
                     </div>
                     <Calendar calendarDays={calendarDays} />
                 </div>
