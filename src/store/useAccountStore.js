@@ -33,6 +33,34 @@ const useAccountStore = create(
 
             // 로그아웃
             logout: () => set({ user: null }),
+
+            // 프로필 수정
+            updateProfile: ({ email, name, bio }) =>
+                set((state) => {
+                    const updatedAccounts = state.accounts.map((acc) =>
+                        acc.email === email
+                            ? {
+                                ...acc,
+                                name: name ?? acc.name,
+                                bio: bio ?? acc.bio,
+                            }
+                            : acc
+                    );
+
+                    const updatedUser =
+                        state.user?.email === email
+                            ? {
+                                ...state.user,
+                                name: name ?? state.user.name,
+                                bio: bio ?? state.user.bio,
+                            }
+                            : state.user;
+
+                    return {
+                        accounts: updatedAccounts,
+                        user: updatedUser,
+                    };
+                }),
         }),
         {
             name: "account-storage", // localStorage에 저장될 key
