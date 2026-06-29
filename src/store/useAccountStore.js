@@ -3,13 +3,22 @@ import USERS from "../data/accountData";
 
 const useAccountStore = create((set, get) => ({
     user: null,
-    accounts: USERS,
+    accounts: JSON.parse(localStorage.getItem("accounts")) || USERS,
 
     addAccount: (account) =>
-        set((state) => ({
-            accounts: [ ...state.accounts, account ],
-        })),
-    
+        set((state)=>{
+            const updatedAccounts = [...state.accounts, account];
+
+            localStorage.setItem(
+                "accounts",
+                JSON.stringify(updatedAccounts)
+            );
+
+            return {
+                accounts: updatedAccounts,
+            }
+        }),
+        
     login: (email, password) => {
         const { accounts } = get(); // state에서 가져오기
         const account = accounts.find(

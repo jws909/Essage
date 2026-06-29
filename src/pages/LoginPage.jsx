@@ -1,6 +1,6 @@
 import '../css/LoginPage.css'
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import useAccountStore from '../store/useAccountStore';
 
 
@@ -9,8 +9,11 @@ function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
     const accounts = useAccountStore((s)=>s.accounts);
     const login = useAccountStore((s)=>s.login);
+
+    const navigate = useNavigate();
 
     function handleLogin(e) {
         e.preventDefault();
@@ -20,9 +23,12 @@ function LoginPage() {
             return;
         }
 
-        if(login(email, password)){
+        const success = login(email, password);
+
+        if(success){
             setError(false);
             alert('로그인 성공!');
+            navigate('/');
         } else {
             setError(true);
             alert('이메일 또는 비밀번호가 올바르지 않습니다.');

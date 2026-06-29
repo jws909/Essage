@@ -1,6 +1,8 @@
 import '../css/SignupPage.css'
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
+import useAccountStore from '../store/useAccountStore';
+
 
 function SignupPage() {
 
@@ -11,6 +13,10 @@ function SignupPage() {
     const [error, setError] = useState(false);
     const [name, setName] = useState('');
     const navigate = useNavigate();
+
+    const accounts = useAccountStore((s)=>s.accounts);
+    const addAccount = useAccountStore((s)=>s.addAccount);
+    const exist = accounts.find(acc => acc.email === email);
 
     function handleSignup(e) {
         e.preventDefault();
@@ -30,6 +36,11 @@ function SignupPage() {
             return;
         }
 
+        if(exist) {
+            setError("이미 가입된 이메일입니다.");
+            return;
+        }
+
         setError('');
 
         const user = {
@@ -38,10 +49,7 @@ function SignupPage() {
             password
         };
 
-        localStorage.setItem('user', JSON.stringify(user));
-
-        console.log(user);
-        console.log(localStorage.getItem('user'));
+        addAccount(user);
         
         alert('회원가입 성공');
         navigate('/login');
