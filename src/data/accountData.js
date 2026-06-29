@@ -17,6 +17,24 @@ let USERS = [
         password: "1111",
         bio: "복숭아지만 탈출을 꿈꾸는 캐릭터"
     },
-]
+    {
+        name: "무지",
+        email: "muzi@gmail.com",
+        password: "1111",
+        bio: "토끼를 좋아하는 단무지 캐릭터"
+    },
+    {
+        name: "프로도",
+        email: "frodo@gmail.com",
+        password: "1111",
+        bio: "재벌견이지만 사랑에는 서툰 개"
+    },
+    {
+        name: "네오",
+        email: "neo@gmail.com",
+        password: "1111",
+        bio: "시크하고 도도한 고양이 캐릭터"
+    }
+];
 
 export default USERS;
