@@ -4,7 +4,7 @@ import COMMENTS, { lastCommentId } from '../data/commentData'
 
 const useCommentStore = create(
     persist(
-        (set) => ({
+        (set, get) => ({
             comments: COMMENTS,
             lastId: lastCommentId,
 
@@ -19,6 +19,11 @@ const useCommentStore = create(
             //     set((state) => ({
             //         comments: state.comments.filter((c) => c.id !== id),
             //     })),
+
+            // email을 가진 작성자가 작성한 총 댓글 수
+            getCommentCountByEmail: (email) => {
+                return get().comments.filter((comment) => comment.author === email).length;
+            },
         }),
         {
             name: "comment-storage", // localStorage에 저장될 key

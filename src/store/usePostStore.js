@@ -4,7 +4,7 @@ import POSTS, { lastPostId } from '../data/postData'
 
 const usePostStore = create(
     persist(
-        (set) => ({
+        (set, get) => ({
             posts: POSTS,
             lastId: lastPostId,
 
@@ -19,6 +19,11 @@ const usePostStore = create(
             //     set((state) => ({
             //         posts: state.posts.filter((p) => p.id !== id),
             //     })),
+
+            // email을 가진 작성자가 작성한 총 게시글 수
+            getPostCountByEmail: (email) => {
+                return get().posts.filter((post) => post.author === email).length;
+            },
         }),
         {
             name: "post-storage", // localStorage에 저장될 key

@@ -4,6 +4,8 @@ import { Person, PencilSquare } from 'react-bootstrap-icons';
 import { Container, Nav, Navbar, Button } from 'react-bootstrap';
 import useAccountStore from '../store/useAccountStore'
 import { useState } from 'react';
+import usePostStore from '../store/usePostStore';
+import useCommentStore from '../store/useCommentStore';
 
 
 function MyPage() {
@@ -13,6 +15,9 @@ function MyPage() {
 
     const [ nickName, setNickName ] = useState(currentUser.name);
     const [ biography, setBiography ] = useState(currentUser.bio);
+
+    const getPostCountByEmail = usePostStore((s) => s.getPostCountByEmail);
+    const getCommentCountByEmail = useCommentStore((s) => s.getCommentCountByEmail);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -47,10 +52,10 @@ function MyPage() {
                     <span className='mypage-post'><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" className="bi bi-file-earmark-text" viewBox="0 0 16 16">
                         <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
                         <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
-                    </svg> 내가 작성한 글: 3개</span>
+                    </svg> 내가 작성한 글: {getPostCountByEmail(currentUser.email)}개</span>
                     <span className='mypage-post' style={{ margin: '8px' }}><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" className="bi bi-chat-left" viewBox="0 0 16 16">
                         <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
-                    </svg> 내가 작성한 댓글: 5개</span>
+                    </svg> 내가 작성한 댓글: {getCommentCountByEmail(currentUser.email)}개</span>
 
                 </div>
 
