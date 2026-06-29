@@ -56,7 +56,7 @@ function PostWritePage() {
             id: lastPostId + 1,
             category: category.split(" ")[ 0 ],
             title: title,
-            author: currentUser.name,
+            author: currentUser.email,
             date: getToday(),
             views: 2321,
             preview: parseText(content).preview,
