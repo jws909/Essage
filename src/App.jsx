@@ -86,7 +86,7 @@ function App() {
             <Route path='/teams/:teamId/write' element={<PostWritePage />} />
             <Route path='/teams/:teamId/archive' element={<ArchivePage />} />
             <Route path='/teams/:teamId/calendar' element={<CalendarPage />} />
-            <Route path='/teams/:teamId/mypage' element={<MyPage />} />
+            <Route path='/mypage' element={<MyPage />} />
 
           </Routes>
         </div>

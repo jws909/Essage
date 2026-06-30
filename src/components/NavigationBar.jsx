@@ -31,7 +31,7 @@ function NavigationBar() {
                     <Nav.Link onClick={() => { navigate(location + "/calendar") }}>일정</Nav.Link>
                     <Nav.Link onClick={() => {
                         if (user) {
-                            navigate(location + "/mypage");
+                            navigate("/mypage");
                         } else {
                             navigate("/login");
                         }
@@ -62,7 +62,7 @@ function NavigationBar() {
                     <Button variant="secondary" className="rounded-circle d-flex align-items-center justify-content-center profile-btn"
                         onClick={() => {
                             if (user) {
-                                navigate(location + "/mypage");
+                                navigate("/mypage");
                             } else {
                                 navigate("/login");
                             }
