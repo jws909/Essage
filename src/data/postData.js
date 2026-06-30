@@ -1,6 +1,9 @@
+
 let POSTS = [
+    // 💻 [teamId: 1] Essage 개발팀 게시글
     {
         id: 1,
+        teamId: 1,
         category: "자유",
         title: "리액트 프로젝트 첫걸음! 화이팅입니다.",
         author: "chunsik@gmail.com",
@@ -15,6 +18,7 @@ let POSTS = [
     },
     {
         id: 2,
+        teamId: 1,
         category: "질문",
         title: "useState와 useEffect 차이가 아직 헷갈립니다.",
         author: "lion@gmail.com",
@@ -29,6 +33,7 @@ let POSTS = [
     },
     {
         id: 3,
+        teamId: 1,
         category: "자유",
         title: "드디어 첫 API 연동 성공했습니다!",
         author: "apeach@gmail.com",
@@ -43,6 +48,7 @@ let POSTS = [
     },
     {
         id: 4,
+        teamId: 1,
         category: "정보",
         title: "초보자를 위한 Git 커밋 습관 공유",
         author: "muzi@gmail.com",
@@ -57,6 +63,7 @@ let POSTS = [
     },
     {
         id: 5,
+        teamId: 1,
         category: "질문",
         title: "컴포넌트 폴더 구조는 어떻게 관리하시나요?",
         author: "neo@gmail.com",
@@ -71,6 +78,7 @@ let POSTS = [
     },
     {
         id: 6,
+        teamId: 1,
         category: "자유",
         title: "첫 팀 회고를 진행해봤습니다.",
         author: "frodo@gmail.com",
@@ -83,8 +91,55 @@ let POSTS = [
             "개발 실력도 중요하지만 소통이 프로젝트 성공에 정말 큰 영향을 준다는 걸 다시 한번 느꼈습니다.",
         ],
     },
-]
 
-export let lastPostId = 6;
+    // 🎨 [teamId: 2] Essage 디자인팀 게시글
+    {
+        id: 7,
+        teamId: 2,
+        category: "정보",
+        title: "이번 프로젝트 서비스 컬러 가이드 공유합니다.",
+        author: "neo@gmail.com",
+        date: "2026-06-22",
+        views: 65,
+        preview: "우리 서비스의 메인 컬러 조합과 컴포넌트용 UI 색상 세트입니다.",
+        paragraphs: [
+            "안녕하세요, 디자인팀 네오입니다. 개발팀분들과 싱크를 맞추기 위해 이번 웹 서비스의 최종 컬러 시스템을 공유해 드립니다.",
+            "브랜드 메인 컬러는 신뢰감을 주는 라이트 블루 계열이며, 중요 알림이나 강조는 딥 네이비와 오렌지 컬러를 서브로 사용하기로 결정했습니다.",
+            "피그마 링크에도 컴포넌트별로 토큰화해 두었으니 작업 시 참고해 주세요. 색상 관련 수정 의견이 있으시면 언제든 편하게 말씀해 주세요!"
+        ],
+    },
+    {
+        id: 8,
+        teamId: 2,
+        category: "질문",
+        title: "GNB 영역 컴포넌트 반응형 일러스트 배치 질문",
+        author: "chunsik@gmail.com",
+        date: "2026-06-24",
+        views: 42,
+        preview: "모바일 화면으로 줄어들 때 상단 배너를 숨기는 게 나을까요?",
+        paragraphs: [
+            "이번에 반응형 레이아웃 시안을 잡으면서 고민이 생겨 질문 글을 올립니다.",
+            "데스크톱 화면에서는 상단 공지사항 우측에 귀여운 일러스트 아이콘이 들어가는 게 컴포unity 느낌을 살리기 좋은데요, 태블릿이나 모바일로 화면이 작아지면 텍스트를 너무 가리게 됩니다.",
+            "아예 CSS 미디어 쿼리로 모바일에서는 `display: none` 처리를 하는 게 깔끔할지, 아니면 크기를 줄여서 아래로 내리는 게 UX상 좋을지 디자인팀의 의견이 궁금합니다."
+        ],
+    },
+    {
+        id: 9,
+        teamId: 2,
+        category: "자유",
+        title: "피그마 변수(Variables) 기능 써보신 분 계신가요?",
+        author: "lion@gmail.com",
+        date: "2026-06-25",
+        views: 51,
+        preview: "다크모드 대응할 때 변수 기능 쓰니까 신세계네요.",
+        paragraphs: [
+            "이번에 디자인 시스템 정비하면서 피그마 신기능인 Variables를 본격적으로 써봤는데 정말 편하네요!",
+            "예전에는 다크모드 시안을 만들려면 프레임을 통째로 복사해서 일일이 색을 바꿨어야 했는데, 이제 토큰 하나만 스위칭하면 전체 테마가 한 번에 바뀌니까 작업 효율이 엄청납니다.",
+            "나중에 개발팀에 가이드 전달할 때도 스타일 이름이 아니라 변수 값 기반으로 export할 수 있어서 소통 비용이 확 줄어들 것 같습니다. 강추합니다!"
+        ],
+    }
+];
+
+export let lastPostId = 9;
 
 export default POSTS;
