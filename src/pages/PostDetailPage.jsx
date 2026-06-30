@@ -35,9 +35,6 @@ function PostDetailPage() {
     const increaseViews = usePostStore((s) => s.increaseViews);
     const hasViewed = useRef(false); //조회수 중복 증가 방지
 
-    const post = POSTS.find(
-        post => post.id === Number(id)
-    );
 
     useEffect(() => {
         if (post && !hasViewed.current) {
@@ -49,10 +46,6 @@ function PostDetailPage() {
 
     }, []);
 
-    const selectedComments =
-        COMMENTS.filter(comment => comment.postId === Number(id));
-
-    const [commentInput, setCommentInput] = useState('');
 
     function submitComment() {
 
