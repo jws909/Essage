@@ -88,8 +88,8 @@ function NavigationBar() {
                 </div>
 
                 {/* 2. 중앙 메뉴 탭 */}
-                <Nav className="d-none d-md-flex gap-4 mx-auto">
-                    <Nav.Link onClick={() => { navigate(locationBase + "/") }}>홈</Nav.Link>
+                <Nav className="d-none d-lg-flex gap-4 mx-auto">
+                    <Nav.Link onClick={() => { navigate(locationBase) }}>홈</Nav.Link>
                     <Nav.Link onClick={() => { navigate(locationBase + "/calendar") }}>일정</Nav.Link>
                     <Nav.Link onClick={() => {
                         if (user) {
@@ -117,7 +117,7 @@ function NavigationBar() {
                         </Nav.Link>
                     )}
 
-                    <Button className="d-none d-sm-inline-flex gap-2 write-btn"
+                    <Button className="d-none d-md-inline-flex gap-2 write-btn"
                         variant="primary" onClick={() => { navigate(locationBase + "/write") }}>
                         <PencilSquare size={14} /> 글쓰기
                     </Button>

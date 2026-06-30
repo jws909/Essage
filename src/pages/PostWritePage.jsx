@@ -67,7 +67,7 @@ function PostWritePage() {
         })
 
         alert("게시글이 등록 되었습니다.");
-        navigate("/");
+        navigate("/teams/"+ teamId);
     };
 
     const handleCancel = () => {

@@ -28,7 +28,6 @@ function LoginPage() {
         if(success){
             setError(false);
             alert('로그인 성공!');
-            navigate('/');
         } else {
             setError(true);
             alert('이메일 또는 비밀번호가 올바르지 않습니다.');
