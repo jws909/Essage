@@ -189,6 +189,6 @@ let COMMENTS = [
     }
 ];
 
-export let lastCommentId = 18; // 마지막 ID 업데이트
+export let lastCommentId = 19; // 마지막 ID 업데이트
 
 export default COMMENTS;

@@ -24,7 +24,10 @@ const usePostStore = create(
                 : post
             ),
             })),
-
+            // email을 가진 작성자가 작성한 총 게시글 수
+            getPostCountByEmail: (email) => {
+                return get().posts.filter((post) => post.author === email).length;
+            },
         }),
         
         {
