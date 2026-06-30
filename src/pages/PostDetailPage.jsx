@@ -1,6 +1,6 @@
 import '../css/PostDetailPage.css'
 import { useNavigate, useParams } from 'react-router';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import usePostStore from '../store/usePostStore';
 import useCommentStore from '../store/useCommentStore';
 import { HandThumbsUp, PersonCircle } from 'react-bootstrap-icons';
@@ -13,6 +13,7 @@ function PostDetailPage() {
     const COMMENTS = useCommentStore((s) => s.comments);
     const addComment = useCommentStore((s) => s.addComment);
     const lastCommentId = useCommentStore((s) => s.lastId);
+
 
     const user = useAccountStore((s) => s.user);
     const getName = useAccountStore((s) => s.getName);
@@ -31,6 +32,27 @@ function PostDetailPage() {
 
     const likeComment = useCommentStore((s) => s.likeComment); //좋아요 기능
 
+    const increaseViews = usePostStore((s) => s.increaseViews);
+    const hasViewed = useRef(false); //조회수 중복 증가 방지
+
+    const post = POSTS.find(
+        post => post.id === Number(id)
+    );
+
+    useEffect(() => {
+        if (post && !hasViewed.current) {
+            
+            increaseViews(post.id);
+            hasViewed.current = true;
+        }
+        console.log("test");
+
+    }, []);
+
+    const selectedComments =
+        COMMENTS.filter(comment => comment.postId === Number(id));
+
+    const [commentInput, setCommentInput] = useState('');
 
     function submitComment() {
 

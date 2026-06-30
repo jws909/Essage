@@ -40,11 +40,27 @@ function PostCard({ post }) {
                         {post.preview}
                     </p>
 
-                    {/* BOTTOM 영역 (고정 footer) */}
-                    <div className="mt-auto d-flex align-items-center justify-content-between border-top pt-3 small text-secondary">
-                        <span className="fw-medium text-body">{getName(post.author)}</span>
-                        <time dateTime={post.date}>{post.date}</time>
+                    {/* BOTTOM 영역 */}
+                    <div className="mt-auto border-top pt-3">
+
+                        <div className="d-flex align-items-center justify-content-between small text-secondary">
+
+                            <span className="fw-medium text-body">
+                                {getName(post.author)}
+                            </span>
+
+                            <time dateTime={post.date}>
+                                {post.date}
+                            </time>
+
+                        </div>
+
+                        <div className="small text-secondary mt-1">
+                            조회수 {post.views}
+                        </div>
+
                     </div>
+
 
                 </div>
             </article>
