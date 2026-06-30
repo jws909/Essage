@@ -39,14 +39,23 @@ function FileCard({ file }) {
             </div>
 
             <div className="file-right">
+                <button className="btn-download" onClick={(e) => {
+                    e.stopPropagation();
+                    if (!file.file) {
+                        alert("다운로드 할 파일이 없습니다.");
+                        return;
+                    }
 
-                <button className="btn-download">
+                    const url = URL.createObjectURL(file.file);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = file.file.name;
+                    a.click();
 
-                    <Download />
+                    URL.revokeObjectURL(url);
 
-                    다운로드
-
-                </button>
+                }}>
+                    <Download /> 다운로드 </button>
 
                 <button
                     className="btn-delete"

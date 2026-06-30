@@ -75,11 +75,12 @@
 }
 
 .btn-delete {
-    background-color: #ef4444;
-    color: white;
+    background-color: #fcf7f7;
+    border: 1px solid #d0d1d3;
+    color: #6b7280;
 }
 
 .btn-delete:hover {
-    background-color: #dc2626;
+    background-color: #cacaca;
 
 }

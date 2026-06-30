@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../css/ArchivePage.css";
 import {
     CheckCircle,
     FileEarmarkText,
-    Download,FileEarmarkPlus
+    Download, FileEarmarkPlus
 } from "react-bootstrap-icons";
 
 import useArchiveStore from "../store/useArchiveStore";
+import useAccountStore from "../store/useAccountStore";
+import FileCard from "../components/FileCard";
 
 function ArchivePage() {
     // 탭 상태
@@ -16,12 +18,17 @@ function ArchivePage() {
     const files = useArchiveStore((s) => s.files);
     const addFile = useArchiveStore((s) => s.addFile);
     const lastId = useArchiveStore((s) => s.lastId);
+    const user = useAccountStore((s) => s.user);
 
     // 입력값
     const [title, setTitle] = useState("");
-    const [writer, setWriter] = useState("");
+    const [writer, setWriter] = useState(user?.name || "");
     const [size, setSize] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
+
+    useEffect(() => {
+        if (user) { setWriter(user.name); }
+    }, [user]);
 
     // 오늘 날짜
     function getToday() {
@@ -50,7 +57,7 @@ function ArchivePage() {
             id: lastId + 1,
             title,
             writer,
-            size: size || "-",
+            size,
             date: getToday(),
             file: selectedFile,
         });
@@ -170,24 +177,21 @@ function ArchivePage() {
                         // .reverse()
                         .map((file) => (
 
-                            <div className="file-card" key={file.id}>
-
-                                <FileEarmarkText className="fileIcon" />
-
-                                <div>
-                                    <h3>{file.title}</h3>
-
-                                    <span>
-                                        {file.size} · {file.date} 등록
-                                    </span>
-                                </div>
-
-                                <button className="btn-download">
-                                    <Download />
-                                    다운로드
-                                </button>
-
-                            </div>
+                            // <div className="file-card" key={file.id}>
+                            //     <FileEarmarkText className="fileIcon" />
+                            //     <div>
+                            //         <h3>{file.title}</h3>
+                            //         <span>
+                            //             {file.size} · {file.date} 등록
+                            //         </span>
+                            //     </div>
+                            //     <button className="btn-download">
+                            //         <Download />
+                            //         다운로드
+                            //     </button>
+                            // </div>
+                            <FileCard key={file.id}
+                                file={file} />
 
                         ))}
 
@@ -204,6 +208,44 @@ function ArchivePage() {
 
                     <div className="upload-group">
 
+                        <label>작성자</label>
+
+                        <input
+                            type="text"
+                            value={writer}
+                            readOnly
+                        />
+
+                    </div>
+
+                    <div className="upload-group">
+
+                        <label>파일 선택</label>
+
+                        <input
+                            type="file"
+                            onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (!file) return;
+                                setSelectedFile(file);
+
+                                //파일명 자동입력
+                                setTitle(file.name);
+
+                                //파일 크기 자동입력
+                                const fileSize =
+                                    file.size >= 1024 * 1024 ? (file.size / (1024 * 1024)).toFixed(1) + "MB"
+                                        : Math.ceil(file.size / 1024) + "KB";
+
+                                setSize(fileSize);
+
+                            }}
+                        />
+
+                    </div>
+
+                    <div className="upload-group">
+
                         <label>자료명</label>
 
                         <input
@@ -215,18 +257,7 @@ function ArchivePage() {
 
                     </div>
 
-                    <div className="upload-group">
 
-                        <label>작성자</label>
-
-                        <input
-                            type="text"
-                            value={writer}
-                            onChange={(e) => setWriter(e.target.value)}
-                            placeholder="작성자를 입력하세요."
-                        />
-
-                    </div>
 
                     <div className="upload-group">
 
@@ -241,16 +272,6 @@ function ArchivePage() {
 
                     </div>
 
-                    <div className="upload-group">
-
-                        <label>파일 선택</label>
-
-                        <input
-                            type="file"
-                            onChange={(e) => setSelectedFile(e.target.files[0])}
-                        />
-
-                    </div>
 
                     <div className="button-area">
 
