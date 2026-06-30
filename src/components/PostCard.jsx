@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import '../css/PostCard.css'
 import { Badge } from 'react-bootstrap';
 import useAccountStore from "../store/useAccountStore";
@@ -9,10 +9,12 @@ function PostCard({ post }) {
 
     const getName = useAccountStore((s) => s.getName);
 
+    const { teamId } = useParams();
+
     return (
         <div
             className="post-card-container h-100"
-            onClick={() => navigate("/detail/" + post.id)}
+            onClick={() => navigate("/teams/"+ teamId +"/detail/" + post.id)}
         >
             <article className="card card-hover h-100 rounded-4 border bg-body p-2">
 
