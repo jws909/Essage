@@ -8,8 +8,10 @@ import { useParams } from 'react-router';
 
 function HomePage() {
 
+    const postData = usePostStore((s) => s.posts);
+
     const { teamId } = useParams();
-    const getPostsByTeamId = usePostStore((s)=>s.getPostsByTeamId);
+    const numericTeamId = Number(teamId);
 
     return (
         <>
@@ -44,7 +46,7 @@ function HomePage() {
                     <h2 className="mb-4 fw-bold fs-5">최근 게시글</h2>
 
                     <div className="row g-4 align-items-stretch">
-                        {getPostsByTeamId(teamId)
+                        {postData.filter((post) => Number(post.teamId) === numericTeamId)
                             .slice()
                             .reverse()
                             .map(post => (
