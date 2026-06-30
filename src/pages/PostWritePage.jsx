@@ -61,7 +61,7 @@ function PostWritePage() {
             title: title,
             author: currentUser.email,
             date: getToday(),
-            views: 2321,
+            views: 0,
             preview: parseText(content).preview,
             paragraphs: parseText(content).paragraphs,
         })

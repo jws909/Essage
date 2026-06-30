@@ -42,7 +42,6 @@ function PostDetailPage() {
             increaseViews(post.id);
             hasViewed.current = true;
         }
-        console.log("test");
 
     }, []);
 
