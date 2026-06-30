@@ -29,28 +29,22 @@
     display: flex;
     gap: 20px;
     color: gray;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 20px 0;
     font-size: 14px;
 }
 
-.content {
+/* .content {
     line-height: 2;
     min-height: 300px;
-}
-
-.container-detail {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+} */
 
 .comment-write {
     display: flex;
+    flex-direction: column;
     gap: 10px;
     margin-top: 20px;
 
-    
+
 }
 
 .comment-write textarea {
@@ -68,12 +62,9 @@
 
 }
 
-.comment-write textarea:focus {
-    border-color: #2b6cff;
-}
-
 .comment-write button {
     width: 80px;
+    height: 40px;
 
     border: none;
     border-radius: 12px;
@@ -85,8 +76,47 @@
     cursor: pointer;
 }
 
-hr {
+.comment-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.comment-text {
+    margin: 0;
+    flex: 1;
+}
+
+.comment-actions {
+    margin-left: 16px;
+}
+
+.likes-btn {
+    border: none; /* 테두리 제거 */
+    background: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    color: #2b6cff;
+    font-size: 14px;
+}
+
+.comment-item hr {
     border: none;
     height: 1px;
     background-color: #9b9c9d;
+}
+
+.comment-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    /* margin-top: 8px; */
+}
+
+.comment-count {
+    font-size: 12px;
+    margin-top: 4px;
 }
