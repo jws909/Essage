@@ -35,10 +35,12 @@ function PostDetailPage() {
     const increaseViews = usePostStore((s) => s.increaseViews);
     const hasViewed = useRef(false); //조회수 중복 증가 방지
 
+    const deleteComment = useCommentStore((s) => s.deleteComment); // 댓글 삭제
+
 
     useEffect(() => {
         if (post && !hasViewed.current) {
-            
+
             increaseViews(post.id);
             hasViewed.current = true;
         }
@@ -144,6 +146,19 @@ function PostDetailPage() {
                                             />
                                             {comment.likes || 0}
                                         </button>
+
+                                        {comment.author === user?.email && (
+                                            <button
+                                                className="cmt-delete-btn"
+                                                onClick={() => {
+                                                    if (window.confirm('댓글을 삭제하시겠습니까?')) {
+                                                        deleteComment(comment.id);
+                                                    }
+                                                }}
+                                            >
+                                                삭제
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
 

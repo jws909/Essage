@@ -88,7 +88,9 @@
 }
 
 .comment-actions {
-    margin-left: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .likes-btn {
@@ -100,6 +102,13 @@
     padding: 0;
     color: #2b6cff;
     font-size: 14px;
+}
+
+.cmt-delete-btn {
+    border: none; /* 테두리 제거 */
+    background: none;
+    font-size: 12px;
+    color: #666;
 }
 
 .comment-item hr {
