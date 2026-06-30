@@ -7,6 +7,7 @@ import LeftButton from '../components/LeftButton';
 import RightButton from '../components/RightButton';
 import { categoryColor, getCategoryLabel } from "../data/eventStyle";
 import useEventStore from '../store/useEventStore';
+import { useParams } from 'react-router';
 
 function CalendarPage() {
     const addEvent = useEventStore((state) => state.addEvent);
@@ -16,6 +17,8 @@ function CalendarPage() {
     const [ category, setCategory ] = useState("");
     const [ desc, setDesc ] = useState("");
 
+    const { teamId } = useParams();
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -23,6 +26,7 @@ function CalendarPage() {
 
         addEvent(selectedDate, {
             text: title,
+            teamId: Number(teamId),
             color: category,
             description: desc,
         });
@@ -105,10 +109,11 @@ function CalendarPage() {
                         </h2>
                         <RightButton onClick={nextMonth} />
                     </div>
-                    <Calendar 
+                    <Calendar
+                        teamId={teamId}
                         calendarDays={calendarDays}
                         selectedDate={selectedDate}
-                        onDateClick={setSelectedDate} 
+                        onDateClick={setSelectedDate}
                     />
                 </div>
                 <div className="col-12 col-lg-4">
