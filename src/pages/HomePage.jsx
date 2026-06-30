@@ -4,9 +4,12 @@ import Alert from 'react-bootstrap/Alert';
 import React, { useEffect, useState } from "react";
 import PostCard from '../components/PostCard';
 import usePostStore from '../store/usePostStore'
+import { useParams } from 'react-router';
 
 function HomePage() {
-    const postData = usePostStore((s) => s.posts);
+
+    const { teamId } = useParams();
+    const getPostsByTeamId = usePostStore((s)=>s.getPostsByTeamId);
 
     return (
         <>
@@ -41,7 +44,7 @@ function HomePage() {
                     <h2 className="mb-4 fw-bold fs-5">최근 게시글</h2>
 
                     <div className="row g-4 align-items-stretch">
-                        {postData
+                        {getPostsByTeamId(teamId)
                             .slice()
                             .reverse()
                             .map(post => (
