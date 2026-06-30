@@ -1,7 +1,7 @@
 import '../css/PostWritePage.css'
 import { useEffect, useState } from "react";
 import usePostStore from '../store/usePostStore';
-import {useNavigate}  from "react-router";
+import {useNavigate, useParams}  from "react-router";
 import useAccountStore from '../store/useAccountStore';
 
 function PostWritePage() {
@@ -15,6 +15,8 @@ function PostWritePage() {
     const addPost = usePostStore((s) => s.addPost);
 
     const currentUser = useAccountStore((s) => s.user);
+
+    const { teamId } = useParams();
 
     function getToday() {
         const today = new Date();
@@ -54,6 +56,7 @@ function PostWritePage() {
 
         addPost({
             id: lastPostId + 1,
+            teamId: teamId,
             category: category.split(" ")[ 0 ],
             title: title,
             author: currentUser.email,

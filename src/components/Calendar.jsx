@@ -4,7 +4,7 @@ import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { categoryColor, badgeTheme } from "../data/eventStyle";
 import useEventStore from "../store/useEventStore";
 
-function Calendar({ calendarDays, selectedDate, onDateClick }) {
+function Calendar({ teamId, calendarDays, selectedDate, onDateClick }) {
 
     const MAX_VISIBLE = 2;
     const [ expandedDate, setExpandedDate ] = useState(null);
@@ -14,8 +14,6 @@ function Calendar({ calendarDays, selectedDate, onDateClick }) {
 
     const events = useEventStore((state) => state.events);
     const getEventsByDate = useEventStore((state) => state.getEventsByDate);
-    const addEvent = useEventStore((state) => state.addEvent);
-    const removeEvent = useEventStore((state) => state.removeEvent);
 
     const dayOfWeek = [ '일', '월', '화', '수', '목', '금', '토' ];
 
@@ -53,7 +51,12 @@ function Calendar({ calendarDays, selectedDate, onDateClick }) {
                             );
                         }
 
-                        const dayEvents = getEventsByDate(calendarDay.date);
+                        const allDayEvents = getEventsByDate(calendarDay.date);
+                        
+                        const numericTeamId = Number(teamId);
+                        const dayEvents = allDayEvents.filter(
+                            (event) => Number(event.teamId) === numericTeamId
+                        );
 
                         const isExpanded = expandedDate === calendarDay.date;
 

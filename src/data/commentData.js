@@ -1,4 +1,6 @@
+
 let COMMENTS = [
+    // 1번 게시글 댓글 (개발팀)
     {
         postId: 1,
         id: 1,
@@ -26,6 +28,8 @@ let COMMENTS = [
         likes: 0,
         likedUsers: []
     },
+
+    // 2번 게시글 댓글 (개발팀)
     {
         postId: 2,
         id: 4,
@@ -44,6 +48,8 @@ let COMMENTS = [
         likes: 0,
         likedUsers: []
     },
+
+    // 3번 게시글 댓글 (개발팀)
     {
         postId: 3,
         id: 6,
@@ -62,6 +68,8 @@ let COMMENTS = [
         likes: 0,
         likedUsers: []
     },
+
+    // 4번 게시글 댓글 (개발팀)
     {
         postId: 4,
         id: 8,
@@ -80,6 +88,8 @@ let COMMENTS = [
         likes: 0,
         likedUsers: []
     },
+
+    // 5번 게시글 댓글 (개발팀)
     {
         postId: 5,
         id: 10,
@@ -107,6 +117,8 @@ let COMMENTS = [
         likes: 0,
         likedUsers: []
     },
+
+    // 6번 게시글 댓글 (개발팀)
     {
         postId: 6,
         id: 13,
@@ -134,8 +146,49 @@ let COMMENTS = [
         likes: 0,
         likedUsers: []
     },
-]
+    // 7번 게시글 댓글 (디자인팀)
+    {
+        postId: 7,
+        id: 16,
+        author: "lion@gmail.com",
+        timestamp: "2026-06-22 23:11",
+        text: "컬러 톤이 깔끔해서 컴포넌트 짤 때 스타일 정의하기 편하겠네요. 고생하셨습니다!",
+        likes: 0,
+        likedUsers: []
+    },
 
-export let lastCommentId = 15;
+    // 8번 게시글 댓글 (디자인팀)
+    {
+        postId: 8,
+        id: 17,
+        author: "neo@gmail.com",
+        timestamp: "2026-06-24 10:05",
+        text: "모바일 환경에서는 가독성이 제일 중요하니 텍스트를 가리는 아이콘은 display: none 처리하는 게 좋아 보여요.",
+        likes: 0,
+        likedUsers: []
+    },
+    {
+        postId: 8,
+        id: 18,
+        author: "chunsik@gmail.com",
+        timestamp: "2026-06-24 11:30",
+        text: "의견 감사합니다! 미디어 쿼리 적용해서 모바일 뷰에서는 깔끔하게 숨기도록 구현할게요.",
+        likes: 0,
+        likedUsers: []
+    },
+
+    // 9번 게시글 댓글 (디자인팀)
+    {
+        postId: 9,
+        id: 19,
+        author: "neo@gmail.com",
+        timestamp: "2026-06-25 15:42",
+        text: "맞아요, 다크모드 컴포넌트 스위칭할 때 Variables만큼 편한 게 없죠 유용하게 씁시다!",
+        likes: 0,
+        likedUsers: []
+    }
+];
+
+export let lastCommentId = 18; // 마지막 ID 업데이트
 
 export default COMMENTS;

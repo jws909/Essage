@@ -4,10 +4,32 @@ import Alert from 'react-bootstrap/Alert';
 import React, { useEffect, useState } from "react";
 import PostCard from '../components/PostCard';
 import usePostStore from '../store/usePostStore'
+import { useParams } from 'react-router';
+import useTeamStore from '../store/useTeamStore';
+import useAccountStore from '../store/useAccountStore';
 
 function HomePage() {
-    const postData = usePostStore((s) => s.posts);
 
+    const postData = usePostStore((s) => s.posts);
+    const getTeamsByUserEmail = useTeamStore((state) => state.getTeamsByUserEmail);
+    const user = useAccountStore((state) => state.user);
+
+    const { teamId } = useParams();
+    const numericTeamId = Number(teamId);
+
+    // 내 팀 목록에서 현재 URL의 팀 찾기
+    const currentTeam = getTeamsByUserEmail(user?.email).find(t => t.id === Number(teamId));
+
+    useEffect(() => {
+        if (currentTeam) {
+            // ✨ 브라우저 탭 제목을 "Essage | Essage 개발팀" 형태로 변경
+            document.title = `Essage | ${currentTeam.name}`;
+        }
+
+        // 컴포넌트 언마운트 시 기본 타이틀로 복구
+        return () => { document.title = "Essage"; };
+    }, [ currentTeam ]);
+    
     return (
         <>
             <div className="d-flex flex-column gap-4">
@@ -41,7 +63,7 @@ function HomePage() {
                     <h2 className="mb-4 fw-bold fs-5">최근 게시글</h2>
 
                     <div className="row g-4 align-items-stretch">
-                        {postData
+                        {postData.filter((post) => Number(post.teamId) === numericTeamId)
                             .slice()
                             .reverse()
                             .map(post => (

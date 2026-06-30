@@ -7,6 +7,9 @@ import LeftButton from '../components/LeftButton';
 import RightButton from '../components/RightButton';
 import { categoryColor, getCategoryLabel } from "../data/eventStyle";
 import useEventStore from '../store/useEventStore';
+import { useParams } from 'react-router';
+import useTeamStore from '../store/useTeamStore';
+import useAccountStore from '../store/useAccountStore';
 
 function CalendarPage() {
     const addEvent = useEventStore((state) => state.addEvent);
@@ -16,6 +19,14 @@ function CalendarPage() {
     const [ category, setCategory ] = useState("");
     const [ desc, setDesc ] = useState("");
 
+    const { teamId } = useParams();
+    const user = useAccountStore((state) => state.user);
+    const getTeamsByUserEmail = useTeamStore((state) => state.getTeamsByUserEmail);
+    const numericTeamId = Number(teamId);
+
+    // 내 팀 목록에서 현재 URL의 팀 찾기
+    const currentTeam = getTeamsByUserEmail(user?.email).find(t => t.id === Number(teamId));
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -23,6 +34,7 @@ function CalendarPage() {
 
         addEvent(selectedDate, {
             text: title,
+            teamId: Number(teamId),
             color: category,
             description: desc,
         });
@@ -90,7 +102,7 @@ function CalendarPage() {
     return (
         <div>
             <header className="mb-5">
-                <h1 className="custom-heading fw-bold text-body">우리 팀 일정 관리</h1>
+                <h1 className="custom-heading fw-bold text-body">{currentTeam.name} 일정 관리</h1>
                 <p className="mt-2 small text-muted"
                     style={{ lineHeight: 1.625 }}>
                     팀원들과 함께하는 회의, 마감, 이벤트를 한눈에 확인하고 새로운 일정을 등록해 보세요.
@@ -105,10 +117,11 @@ function CalendarPage() {
                         </h2>
                         <RightButton onClick={nextMonth} />
                     </div>
-                    <Calendar 
+                    <Calendar
+                        teamId={teamId}
                         calendarDays={calendarDays}
                         selectedDate={selectedDate}
-                        onDateClick={setSelectedDate} 
+                        onDateClick={setSelectedDate}
                     />
                 </div>
                 <div className="col-12 col-lg-4">

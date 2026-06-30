@@ -44,7 +44,7 @@ const useEventStore = create(
                     return { events: newEvents };
                 }),
 
-            // 특정 날짜 이벤트 가져오기
+            // 특정 date에 해당하는 날짜 이벤트 가져오기
             getEventsByDate: (date) => {
                 return get().events[ date ] || [];
             },
