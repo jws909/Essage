@@ -11,8 +11,37 @@ const useCommentStore = create(
             // 댓글 작성
             addComment: (comment) =>
                 set((state) => ({
-                    comments: [ ...state.comments, comment ],
+                    comments: [...state.comments, comment],
                     lastId: comment.id,
+                })),
+
+            // 좋아요 수
+            likeComment: (id, email) =>
+                set((state) => ({
+                    comments: state.comments.map((comment) => {
+
+                        if (comment.id !== id) {
+                            return comment;
+                        }
+
+                        //이미 좋아요를 눌렀으면 취소
+                        if (comment.likedUsers.includes(email)) {
+                            return {
+                                ...comment,
+                                likes: comment.likes - 1,
+                                likedUsers: comment.likedUsers.filter(
+                                    userEmail => userEmail !== email
+                                ),
+                            };
+                        }
+
+                        //처음 누른 경우
+                        return {
+                            ...comment,
+                            likes: comment.likes + 1,
+                            likedUsers: [...comment.likedUsers, email],
+                        };
+                    }),
                 })),
 
             // deleteComment: (id) =>

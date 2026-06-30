@@ -1,10 +1,9 @@
 import '../css/PostDetailPage.css'
 import { useNavigate, useParams } from 'react-router';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import usePostStore from '../store/usePostStore';
 import useCommentStore from '../store/useCommentStore';
-
-import { PersonCircle } from 'react-bootstrap-icons';
+import { HandThumbsUp, PersonCircle } from 'react-bootstrap-icons';
 import useAccountStore from '../store/useAccountStore';
 
 
@@ -22,18 +21,20 @@ function PostDetailPage() {
 
     const { id } = useParams();
 
-    const post = POSTS.find(
-        post => post.id === Number(id)
+    const post = POSTS.find(post => post.id === Number(id));
+
+    const selectedComments = COMMENTS.filter(
+        comment => comment.postId === Number(id)
     );
 
-    const selectedComments =
-        COMMENTS.filter(comment => comment.postId === Number(id));
+    const [commentInput, setCommentInput] = useState('');
 
-    const [ commentInput, setCommentInput ] = useState('');
+    const likeComment = useCommentStore((s) => s.likeComment); //좋아요 기능
+
 
     function submitComment() {
 
-        if (commentInput.trim() === '') {
+        if (!commentInput.trim()) {
             return;
         }
 
@@ -45,9 +46,11 @@ function PostDetailPage() {
         const newComment = {
             postId: Number(id),
             id: lastCommentId + 1,
-            author: user?.email || "나",
+            author: user?.email,
             timestamp: new Date().toLocaleString(),
-            text: commentInput
+            text: commentInput,
+            likes: 0,
+            likedUsers: []
         };
 
         addComment(newComment);
@@ -72,9 +75,7 @@ function PostDetailPage() {
                     <span>조회수 {post.views}</span>
                 </div>
 
-
                 <hr />
-                <br />
 
                 {
                     post.paragraphs.map((paragraph, index) => (
@@ -93,24 +94,48 @@ function PostDetailPage() {
                 </p>
 
                 {
-                    selectedComments.map(comment => (
+                    selectedComments.map(comment => {
 
+                        const isLiked = (comment.likedUsers ?? []).includes(user?.email);
 
-                        <div key={comment.id} className="comment-item">
-                            <div className="comment-header">
-                                <PersonCircle className="profile-icon" />
+                        return (
+                            <div key={comment.id} className="comment-item">
+                                <div className="comment-header">
+                                    <PersonCircle className="profile-icon" />
 
-                                <strong style={{ fontSize: '15px' }}> {getName(comment.author)}</strong>
+                                    <strong style={{ fontSize: '15px' }}> {getName(comment.author)}</strong>
 
-                                <span style={{ fontSize: '14px', color: '#4a4949' }}> {comment.timestamp}</span>
+                                    <span style={{ fontSize: '14px', color: '#4a4949' }}> {comment.timestamp}</span>
+                                </div>
+
+                                <div className="comment-content">
+                                    <p className="comment-text">{comment.text}</p>
+
+                                    <div className="comment-actions">
+                                        <button
+                                            className="likes-btn"
+                                            onClick={() => {
+                                                if (!user) {
+                                                    alert("로그인 후 이용 가능합니다.");
+                                                    return;
+                                                }
+
+                                                likeComment(comment.id, user.email);
+                                            }}
+                                        >
+                                            <HandThumbsUp
+                                                size={16}
+                                                color={isLiked ? "#2b6cff" : "#999"}
+                                            />
+                                            {comment.likes || 0}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <hr />
                             </div>
-
-                            <p style={{ fontSize: '15px' }}>{comment.text}</p>
-
-                            <hr />
-
-                        </div>
-                    ))
+                        );
+                    })
                 }
 
                 <div className="comment-write">
@@ -118,8 +143,9 @@ function PostDetailPage() {
                     <textarea
                         value={commentInput}
                         onChange={(e) => setCommentInput(e.target.value)}
+                        maxLength={180}
                         onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
+                            if (e.key === 'Enter' && !e.shiftKey) {
                                 e.preventDefault(); //줄바꿈 X
                                 submitComment(); //댓글 등록
                             }
@@ -127,7 +153,15 @@ function PostDetailPage() {
                         placeholder='댓글을 입력하세요'
                     />
 
-                    <button onClick={submitComment}>등록</button>
+                    <div className="comment-footer">
+                        <span className="comment-count"
+                            style={{
+                                color: commentInput.length >= 160 ? "red" : "#666"
+                            }}>
+                            {commentInput.length}/180자
+                        </span>
+                        <button onClick={submitComment}>등록</button>
+                    </div>
 
                 </div>
 
