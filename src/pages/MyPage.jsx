@@ -6,6 +6,7 @@ import useAccountStore from '../store/useAccountStore'
 import { useState } from 'react';
 import usePostStore from '../store/usePostStore';
 import useCommentStore from '../store/useCommentStore';
+import useProfileStore from '../store/useProfileStore';
 
 
 function MyPage() {
@@ -18,6 +19,10 @@ function MyPage() {
 
     const getPostCountByEmail = usePostStore((s) => s.getPostCountByEmail);
     const getCommentCountByEmail = useCommentStore((s) => s.getCommentCountByEmail);
+
+    const profiles = useProfileStore((s) => s.profiles);
+    const getUserProfile = useProfileStore((s) => s.getUserProfile);
+    const userProfile = getUserProfile(currentUser.email); // 프로필이 없으면 칼같이 null이 들어옴
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -42,7 +47,17 @@ function MyPage() {
 
             <div className="mypage-header">
                 <Button variant="secondary" className="rounded-circle d-flex align-items-center justify-content-center mypage-profile-btn">
-                    <Person size={50} />
+                    {userProfile ? (
+                        /* 1. 프로필 이미지가 존재할 때 */
+                        <img
+                            src={userProfile.path}
+                            alt={userProfile.label}
+                            className="rounded-circle"
+                        />
+                    ) : (
+                        /* 2. 프로필 이미지가 없을 때 (기본 아이콘으로 대체) */
+                        <Person />
+                    )}
                 </Button>
                 <div>
                     <h5>{currentUser.name}</h5>
