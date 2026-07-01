@@ -18,6 +18,7 @@ function NavigationBar() {
     const setCurrentTeamId = useTeamStore((s) => s.setCurrentTeamId);
 
     // 프로필 불러오기
+    const profiles = useProfileStore((s) => s.profiles);
     const getUserProfile = useProfileStore((s) => s.getUserProfile);
     const userProfile = getUserProfile(user.email);
 
