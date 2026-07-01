@@ -164,7 +164,7 @@ function PostDetailPage() {
                                 <div className="comment-header d-flex gap-1">
                                     <ProfileButton size={18} userProfile={getUserProfile(comment.author)}/>
 
-                                    <strong style={{ fontSize: '15px' }}> {getName(comment.author)}</strong>
+                                    <strong style={{ fontSize: '14px' }}> {getName(comment.author)}</strong>
 
                                     <span className='ms-auto' style={{ fontSize: '14px', color: '#4a4949' }}> 
                                         {comment.timestamp}
