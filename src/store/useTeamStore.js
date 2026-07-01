@@ -28,7 +28,7 @@ const useTeamStore = create(
                 })),
 
             // 4. 새로운 팀 생성하기 (워크스페이스 개설)
-            createTeam: (teamName, creatorEmail) =>
+            createTeam: (teamName, creatorEmail, category = "Dev", description = "") =>
                 set((state) => {
                     const newId = state.teams.length > 0
                         ? Math.max(...state.teams.map(t => t.id)) + 1
@@ -37,12 +37,14 @@ const useTeamStore = create(
                     const newTeam = {
                         id: newId,
                         name: teamName,
-                        members: [ creatorEmail ], // 생성한 사람은 자동으로 멤버 포함
+                        category: category, // 기본값 또는 선택한 카테고리 반영
+                        description: description || `${teamName} 워크스페이스에 오신 것을 환영합니다!`, // 기본 설명 부여
+                        members: [ creatorEmail ],
                     };
 
                     return {
                         teams: [ ...state.teams, newTeam ],
-                        currentTeamId: newId, // 생성 후 해당 팀으로 바로 이동할 수 있게 세팅
+                        currentTeamId: newId,
                     };
                 }),
         }),
