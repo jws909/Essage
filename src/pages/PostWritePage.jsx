@@ -9,6 +9,8 @@ function PostWritePage() {
     const [nickname, setNickname] = useState("");
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const [removeFile, setRemoveFile] = useState(false);
     const navigate = useNavigate();
 
     const lastPostId = usePostStore((s) => s.lastId);
@@ -66,8 +68,8 @@ function PostWritePage() {
             views: editPost ? editPost.views : 0,
             preview: parseText(content).preview,
             paragraphs: parseText(content).paragraphs,
+            files: selectedFiles
         };
-
         if (editPost) {
             updatePost(postData);
             alert("게시글이 수정되었습니다.");
@@ -87,6 +89,8 @@ function PostWritePage() {
             setNickname("");
             setTitle("");
             setContent("");
+            setSelectedFiles([]);
+            setRemoveFile(false);
         }
     };
 
@@ -102,6 +106,9 @@ function PostWritePage() {
             setCategory(editPost.category);
             setTitle(editPost.title);
             setContent(editPost.paragraphs.join('\n'));
+
+            setSelectedFiles(editPost.files || []);
+            setRemoveFile(false);
         }
     }, [editPost])
 
@@ -109,9 +116,10 @@ function PostWritePage() {
     return (
         <>
             <div className='write-page'>
-                <h1 className='page-title'> 새 글 작성하기</h1>
+                <h1 className='page-title'> {editPost ? "게시글 수정하기" : "새 글 작성하기"}</h1>
 
-                <p className='page-desc'> 팀원들과 공유 하고 싶은 소식, 질문, 자료를 자유롭게 작성해 주세요.</p>
+                <p className='page-desc'> {editPost ? "기존 게시글을 수정할 수 있습니다"
+                    : "팀원들과 공유하고 싶은 소식, 질문, 자료를 자유롭게 작성해 주세요."}</p>
 
                 <div className='write-card'>
 
@@ -154,18 +162,55 @@ function PostWritePage() {
                     </div>
 
                     {/* 파일첨부 */}
-                    <div className='form-group'>
-                        <label>파일(이미지)첨부</label>
-                        <input type="file"></input>
-                    </div>
+                    <div className="form-group">
+                        <label>파일(이미지) 첨부</label>
 
+
+                        {selectedFiles.length > 0 && (
+                            <div
+                                style={{
+                                    marginTop: "10px",
+                                    padding: "12px",
+                                    border: "1px solid #ddd",
+                                    borderRadius: "10px",
+                                    background: "#f8f9fa"
+                                }}
+                            >
+                                <strong>현재 첨부파일</strong>
+                                {selectedFiles.map((file, index) => (
+                                    <div
+                                    key={index} className="attach-file">
+                                        <span> 📎{file.name}</span>
+                                        <button type="button" className="delete-file-btn"
+                                        onClick={() => {
+                                            setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+                                        }}
+                                        >
+                                            삭제
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        <input
+                            type="file"
+                            multiple
+                            onChange={(e) => {
+                                const files = Array.from(e.target.files);
+                                setSelectedFiles(prev => [...prev, ...files]);
+                                setRemoveFile(false);
+                                // if (files.length === 0) return;
+                            }}
+                        />
+                    </div>
 
                     {/* 버튼 */}
                     <div className='button-area'>
                         <button className='cancel-btn' onClick={handleCancel}>취소</button>
-                        <button 
-                        className='submit-btn' 
-                        onClick={handleSubmit}
+                        <button
+                            className='submit-btn'
+                            onClick={handleSubmit}
                         >
                             {editPost ? "수정하기" : "게시하기"} </button>
                     </div>
