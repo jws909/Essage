@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router';
 import useAccountStore from '../store/useAccountStore';
 import useTeamStore from '../store/useTeamStore';
 
+import ProfileButton from './ProfileButton';
+import useProfileStore from '../store/useProfileStore';
+
 function NavigationBar() {
     let navigate = useNavigate();
 
@@ -13,6 +16,10 @@ function NavigationBar() {
     const teamId = useTeamStore((s) => s.currentTeamId);
     const getTeamsByUserEmail = useTeamStore((s) => s.getTeamsByUserEmail);
     const setCurrentTeamId = useTeamStore((s) => s.setCurrentTeamId);
+
+    // 프로필 불러오기
+    const getUserProfile = useProfileStore((s) => s.getUserProfile);
+    const userProfile = getUserProfile(user.email);
 
     const locationBase = `/teams/${teamId}`;
 
@@ -122,19 +129,8 @@ function NavigationBar() {
                         <PencilSquare size={14} /> 글쓰기
                     </Button>
 
-                    <Button variant="secondary" className="rounded-circle d-flex align-items-center justify-content-center profile-btn"
-                        onClick={() => {
-                            if (user) {
-                                navigate("/mypage");
-                            } else {
-                                navigate("/login");
-                            }
-                        }}>
-                        <Person size={20} />
-                    </Button>
+                    <ProfileButton size={36} userProfile={userProfile}/>
                 </div>
-
-
 
             </Container>
         </Navbar >
