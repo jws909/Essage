@@ -18,6 +18,10 @@ function PostDetailPage() {
 
     const likeComment = useCommentStore((s) => s.likeComment);
     const deleteComment = useCommentStore((s) => s.deleteComment);
+    
+    const deleteCommentsByPostId = useCommentStore(
+        (s) => s.deleteCommentsByPostId
+    );
     const deletePost = usePostStore((s) => s.deletePost);
     const increaseViews = usePostStore((s) => s.increaseViews);
 
@@ -104,7 +108,7 @@ function PostDetailPage() {
 
                 <div className="post-info">
                     <strong style={{ color: 'black' }}>{getName(post.author)}</strong>
-                    <span>{post.date}</span>
+                    <span>작성일: {post.date}</span>
                     <span>조회수 {post.views}</span>
                 </div>
 
@@ -122,6 +126,7 @@ function PostDetailPage() {
                         <button onClick={() => {
                             if (window.confirm('게시글을 삭제하시겠습니까?')) {
                                 deletePost(post.id, user.email);
+                                deleteCommentsByPostId(post.id); // 게시글이 삭제되면 댓글도 삭제
                                 navigate(`/teams/${teamId}`);
                             }
                         }}>삭제</button>

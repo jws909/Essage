@@ -44,9 +44,18 @@ const useCommentStore = create(
                     }),
                 })),
 
+            // 댓글 삭제
             deleteComment: (id) =>
                 set((state) => ({
                     comments: state.comments.filter((c) => c.id !== id),
+                })),
+            
+            // 게시글 삭제 시 해당 게시글의 댓글 모두 삭제
+            deleteCommentsByPostId: (postId) =>
+                set((state) => ({
+                    comments: state.comments.filter(
+                        (comment) => comment.postId !== postId
+                    ),
                 })),
 
             // email을 가진 작성자가 작성한 총 댓글 수
