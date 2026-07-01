@@ -1,5 +1,5 @@
 import '../css/NavigationBar.css'
-import { Person, PencilSquare, ColumnsGap } from 'react-bootstrap-icons';
+import { PencilSquare, ColumnsGap } from 'react-bootstrap-icons';
 import { Container, Nav, Navbar, Button, Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import useAccountStore from '../store/useAccountStore';

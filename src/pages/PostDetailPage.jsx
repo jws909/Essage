@@ -6,6 +6,9 @@ import useCommentStore from '../store/useCommentStore';
 import { HandThumbsUp, PersonCircle } from 'react-bootstrap-icons';
 import useAccountStore from '../store/useAccountStore';
 
+import ProfileButton from '../components/ProfileButton'
+import useProfileStore from '../store/useProfileStore'
+
 
 function PostDetailPage() {
 
@@ -20,7 +23,6 @@ function PostDetailPage() {
     const deleteComment = useCommentStore((s) => s.deleteComment);
     const deletePost = usePostStore((s) => s.deletePost);
     const increaseViews = usePostStore((s) => s.increaseViews);
-
     
     // 로그인 사용자 정보
     const user = useAccountStore((s) => s.user);
@@ -28,6 +30,10 @@ function PostDetailPage() {
 
     const navigate = useNavigate();
     const { id, teamId } = useParams();
+
+    // 프로필 불러오기
+    const getUserProfile = useProfileStore((s) => s.getUserProfile);
+    const userProfile = getUserProfile(user.email);
 
     // 현재 게시글 및 댓글 조회
     const post = POSTS.find(
@@ -102,10 +108,13 @@ function PostDetailPage() {
 
                 <h3><strong>{post.title}</strong></h3>
 
-                <div className="post-info">
+                <div className="post-info d-flex gap-2 mt-5 ">
+                    <ProfileButton size={20} userProfile={userProfile}/>
                     <strong style={{ color: 'black' }}>{getName(post.author)}</strong>
-                    <span>{post.date}</span>
-                    <span>조회수 {post.views}</span>
+                    <div className='ms-auto d-flex gap-2'>
+                        <span>{post.date}</span>
+                        <span>조회수 {post.views}</span>
+                    </div>
                 </div>
 
                 <hr />
@@ -148,12 +157,14 @@ function PostDetailPage() {
 
                         return (
                             <div key={comment.id} className="comment-item">
-                                <div className="comment-header">
-                                    <PersonCircle className="profile-icon" />
+                                <div className="comment-header d-flex gap-1">
+                                    <ProfileButton size={18} userProfile={getUserProfile(comment.author)}/>
 
                                     <strong style={{ fontSize: '15px' }}> {getName(comment.author)}</strong>
 
-                                    <span style={{ fontSize: '14px', color: '#4a4949' }}> {comment.timestamp}</span>
+                                    <span className='ms-auto' style={{ fontSize: '14px', color: '#4a4949' }}> 
+                                        {comment.timestamp}
+                                    </span>
                                 </div>
 
                                 <div className="comment-content">
