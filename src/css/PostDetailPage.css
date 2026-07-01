@@ -26,10 +26,7 @@
 }
 
 .post-info {
-    display: flex;
-    gap: 20px;
     color: gray;
-    margin: 20px 0;
     font-size: 14px;
 }
 
