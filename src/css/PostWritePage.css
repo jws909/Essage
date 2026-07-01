@@ -104,3 +104,35 @@ height: 25px;
 /* justify-content: center; */
 /* align-items: center; */
 }
+
+/* -------------------- */
+.attached-file{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:8px 0;
+    border-bottom:1px solid #eee;
+}
+
+.delete-file-btn{
+
+    background:#f0f0f0;
+    color:#34340e;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius:8px;
+
+    padding:6px 14px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.delete-file-btn:hover{
+
+    background:#d2d8df;
+
+}

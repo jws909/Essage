@@ -156,3 +156,43 @@
     font-size: 12px;
     margin-top: 4px;
 }
+
+/* 첨부파일 */
+
+.attach-box{
+
+    margin-top:40px;
+
+    border-top:1px solid #e5e7eb;
+
+    padding-top:25px;
+
+}
+
+.attach-file{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:15px;
+
+    padding:15px 20px;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:12px;
+
+}
+
+.attach-file button{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:5px;
+
+}

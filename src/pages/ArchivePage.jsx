@@ -220,7 +220,7 @@ function ArchivePage() {
 
                     <div className="upload-group">
 
-                        <label>파일 선택</label>
+                        <label> 📎 파일 선택</label>
 
                         <input
                             type="file"
