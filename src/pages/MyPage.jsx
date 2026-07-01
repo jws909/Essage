@@ -1,12 +1,13 @@
 import '../css/MyPage.css'
 
-import { Person, PencilSquare } from 'react-bootstrap-icons';
-import { Container, Nav, Navbar, Button } from 'react-bootstrap';
+import { PencilSquare } from 'react-bootstrap-icons';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 import useAccountStore from '../store/useAccountStore'
 import { useState } from 'react';
 import usePostStore from '../store/usePostStore';
 import useCommentStore from '../store/useCommentStore';
 import useProfileStore from '../store/useProfileStore';
+import ProfileButton from '../components/ProfileButton';
 
 
 function MyPage() {
@@ -46,19 +47,7 @@ function MyPage() {
             <p><span>{currentUser.name}</span> 님, 환영합니다! 내 활동 내역을 확인하고 프로필 정보를 수정할 수 있습니다.</p>
 
             <div className="mypage-header">
-                <Button variant="secondary" className="rounded-circle d-flex align-items-center justify-content-center mypage-profile-btn">
-                    {userProfile ? (
-                        /* 1. 프로필 이미지가 존재할 때 */
-                        <img
-                            src={userProfile.path}
-                            alt={userProfile.label}
-                            className="rounded-circle"
-                        />
-                    ) : (
-                        /* 2. 프로필 이미지가 없을 때 (기본 아이콘으로 대체) */
-                        <Person />
-                    )}
-                </Button>
+                <ProfileButton size={120} userProfile={userProfile} />
                 <div>
                     <h5>{currentUser.name}</h5>
                     <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
