@@ -52,6 +52,10 @@
     color: #666;
 }
 
+.comment-section {
+    margin: 24px;
+}
+
 .comment-write {
     display: flex;
     flex-direction: column;
@@ -108,6 +112,7 @@
 }
 
 .comment-text {
+    font-size: 14px;
     margin: 0;
     flex: 1;
 }

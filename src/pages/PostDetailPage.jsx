@@ -156,9 +156,9 @@ function PostDetailPage() {
                                 <div className="comment-header">
                                     <PersonCircle className="profile-icon" />
 
-                                    <strong style={{ fontSize: '15px' }}> {getName(comment.author)}</strong>
+                                    <strong style={{ fontSize: '14px' }}> {getName(comment.author)}</strong>
 
-                                    <span style={{ fontSize: '14px', color: '#4a4949' }}> {comment.timestamp}</span>
+                                    <span style={{ fontSize: '13px', color: '#4a4949' }}> {comment.timestamp}</span>
                                 </div>
 
                                 <div className="comment-content">
