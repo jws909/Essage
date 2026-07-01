@@ -81,12 +81,10 @@ function PostWritePage() {
 
     const handleCancel = () => {
         const confirmCancel = window.confirm(
-            "작성중인 내용이 삭제됩니다."
+            "작성중인 내용이 삭제됩니다. 정말 취소하시겠습니까?"
         );
         if (confirmCancel) {
-            setNickname("");
-            setTitle("");
-            setContent("");
+            navigate(`/teams/${teamId}`);
         }
     };
 
