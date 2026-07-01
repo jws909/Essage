@@ -9,51 +9,63 @@ import useAccountStore from '../store/useAccountStore';
 
 function PostDetailPage() {
 
+    // Store에서 데이터 가져오기
     const POSTS = usePostStore((s) => s.posts);
     const COMMENTS = useCommentStore((s) => s.comments);
+
     const addComment = useCommentStore((s) => s.addComment);
     const lastCommentId = useCommentStore((s) => s.lastId);
 
+    const likeComment = useCommentStore((s) => s.likeComment);
+    const deleteComment = useCommentStore((s) => s.deleteComment);
+    const deletePost = usePostStore((s) => s.deletePost);
+    const increaseViews = usePostStore((s) => s.increaseViews);
 
+    
+    // 로그인 사용자 정보
     const user = useAccountStore((s) => s.user);
     const getName = useAccountStore((s) => s.getName);
 
     const navigate = useNavigate();
+    const { id, teamId } = useParams();
 
-    const { id } = useParams();
-
-    const post = POSTS.find(post => post.id === Number(id));
-
-    const selectedComments = COMMENTS.filter(
-        comment => comment.postId === Number(id)
+    // 현재 게시글 및 댓글 조회
+    const post = POSTS.find(
+        (post) => post.id === Number(id)
     );
 
-    const [commentInput, setCommentInput] = useState('');
+    const selectedComments = COMMENTS.filter(
+        (comment) => comment.postId === Number(id)
+    );
 
-    const likeComment = useCommentStore((s) => s.likeComment); //좋아요 기능
+    const [commentInput, setCommentInput] = useState("");
+    const hasViewed = useRef(false); // 조회수 중복 증가 방지
 
-    const increaseViews = usePostStore((s) => s.increaseViews);
-    const hasViewed = useRef(false); //조회수 중복 증가 방지
-
-    const deleteComment = useCommentStore((s) => s.deleteComment); // 댓글 삭제
-
-
+    // 게시글이 삭제되었거나 존재하지 않을 경우 목록으로 이동
     useEffect(() => {
-        if (post && !hasViewed.current) {
+        if (!post) {
+            navigate(`/teams/${teamId}`, { replace: true });
+        }
+    }, [post, navigate, teamId]);
 
+    // 최초 1회 조회수 증가
+    useEffect(() => {
+        if (!hasViewed.current) {
             increaseViews(post.id);
             hasViewed.current = true;
         }
+    }, [increaseViews, post]);
 
-    }, []);
-
-
+    
+    // 댓글 등록
     function submitComment() {
 
+        // 공백 댓글 방지
         if (!commentInput.trim()) {
             return;
         }
 
+        // 로그인 사용자만 댓글 작성 가능
         if (!user) {
             alert("로그인 후 댓글을 작성할 수 있습니다.");
             return;
@@ -62,22 +74,27 @@ function PostDetailPage() {
         const newComment = {
             postId: Number(id),
             id: lastCommentId + 1,
-            author: user?.email,
+            author: user.email,
             timestamp: new Date().toLocaleString(),
             text: commentInput,
             likes: 0,
-            likedUsers: []
+            likedUsers: [],
         };
 
         addComment(newComment);
-        setCommentInput('');
+        setCommentInput("");
+    }
+
+    // 게시글이 없으면 더 이상 렌더링하지 않음
+    if (!post) {
+        return null;
     }
 
     return (
 
         <div className='detail-wrapper'>
 
-            <p className="back-btn" onClick={() => navigate("/")}>
+            <p className="back-btn" onClick={() => navigate(`/teams/${teamId}`)}>
                 ← 목록으로 돌아가기</p>
 
             <div className='detail-card'>
@@ -98,11 +115,26 @@ function PostDetailPage() {
                         <p className="post-content" key={index}>{paragraph}</p>
                     ))
                 }
+                {post.author === user?.email && (
+                    <div className='post-actions'>
+
+                        <button onClick={() => navigate(`/teams/${teamId}/write/${post.id}`)}>수정</button>
+                        <button onClick={() => {
+                            if (window.confirm('게시글을 삭제하시겠습니까?')) {
+                                deletePost(post.id, user.email);
+                                navigate(`/teams/${teamId}`);
+                            }
+                        }}>삭제</button>
+                    </div>
+
+                )}
+
 
             </div>
 
             <br />
 
+            {/* 댓글 영역 */}
             <div className="comment-section">
 
                 <p style={{ fontSize: '18px', fontWeight: 'bold' }}>

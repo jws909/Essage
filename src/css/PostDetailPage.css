@@ -38,6 +38,20 @@
     min-height: 300px;
 } */
 
+.post-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 60px;
+}
+
+.post-actions button {
+    border: none;
+    background: none;
+    font-size: 14px;
+    color: #666;
+}
+
 .comment-write {
     display: flex;
     flex-direction: column;
@@ -74,6 +88,17 @@
 
     font-weight: bold;
     cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.comment-write button:hover {
+    background-color: #0f4dde;
+    transform: translateY(-1px);
+}
+
+.comment-write button:active {
+    transform: translateY(2px);
 }
 
 .comment-content {

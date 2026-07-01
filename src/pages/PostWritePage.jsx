@@ -1,14 +1,14 @@
 import '../css/PostWritePage.css'
 import { useEffect, useState } from "react";
 import usePostStore from '../store/usePostStore';
-import {useNavigate, useParams}  from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useAccountStore from '../store/useAccountStore';
 
 function PostWritePage() {
-    const [ category, setCategory ] = useState("자유 게시판");
-    const [ nickname, setNickname ] = useState("");
-    const [ title, setTitle ] = useState("");
-    const [ content, setContent ] = useState("");
+    const [category, setCategory] = useState("자유 게시판");
+    const [nickname, setNickname] = useState("");
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
     const navigate = useNavigate();
 
     const lastPostId = usePostStore((s) => s.lastId);
@@ -16,7 +16,9 @@ function PostWritePage() {
 
     const currentUser = useAccountStore((s) => s.user);
 
-    const { teamId } = useParams();
+    const { teamId, id } = useParams();
+
+    const posts = usePostStore((s) => s.posts);
 
     function getToday() {
         const today = new Date();
@@ -35,7 +37,7 @@ function PostWritePage() {
             .filter(p => p.length > 0);
 
         return {
-            preview: paragraphs[ 0 ] || "",
+            preview: paragraphs[0] || "",
             paragraphs
         };
     }
@@ -49,25 +51,32 @@ function PostWritePage() {
             alert("본문 내용을 입력해주세요");
             return;
         }
-        if (currentUser === null){
+        if (currentUser === null) {
             alert("로그인을 해주세요.")
             return;
         }
 
-        addPost({
-            id: lastPostId + 1,
-            teamId: teamId,
-            category: category.split(" ")[ 0 ],
-            title: title,
+        const postData = {
+            id: editPost ? editPost.id : lastPostId + 1,
+            teamId,
+            category: category.split(" ")[0],
+            title,
             author: currentUser.email,
-            date: getToday(),
-            views: 0,
+            date: editPost ? editPost.date : getToday(),
+            views: editPost ? editPost.views : 0,
             preview: parseText(content).preview,
             paragraphs: parseText(content).paragraphs,
-        })
+        };
 
-        alert("게시글이 등록 되었습니다.");
-        navigate("/teams/"+ teamId);
+        if (editPost) {
+            updatePost(postData);
+            alert("게시글이 수정되었습니다.");
+        } else {
+            addPost(postData);
+            alert("게시글이 등록되었습니다.");
+        }
+
+        navigate(`/teams/${teamId}`);
     };
 
     const handleCancel = () => {
@@ -80,6 +89,21 @@ function PostWritePage() {
             setContent("");
         }
     };
+
+    // 게시글 수정
+    const updatePost = usePostStore((s) => s.updatePost);
+
+    const editPost = posts.find(
+        (post) => post.id === Number(id)
+    );
+
+    useEffect(() => {
+        if (editPost) {
+            setCategory(editPost.category);
+            setTitle(editPost.title);
+            setContent(editPost.paragraphs.join('\n'));
+        }
+    }, [editPost])
 
 
     return (
@@ -139,7 +163,11 @@ function PostWritePage() {
                     {/* 버튼 */}
                     <div className='button-area'>
                         <button className='cancel-btn' onClick={handleCancel}>취소</button>
-                        <button className='submit-btn' onClick={handleSubmit}>게시하기</button>
+                        <button 
+                        className='submit-btn' 
+                        onClick={handleSubmit}
+                        >
+                            {editPost ? "수정하기" : "게시하기"} </button>
                     </div>
                 </div>
             </div>
