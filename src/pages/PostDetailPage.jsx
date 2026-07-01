@@ -33,7 +33,6 @@ function PostDetailPage() {
 
     // 프로필 불러오기
     const getUserProfile = useProfileStore((s) => s.getUserProfile);
-    const userProfile = getUserProfile(user.email);
 
     // 현재 게시글 및 댓글 조회
     const post = POSTS.find(
@@ -109,7 +108,7 @@ function PostDetailPage() {
                 <h3><strong>{post.title}</strong></h3>
 
                 <div className="post-info d-flex gap-2 mt-5 ">
-                    <ProfileButton size={20} userProfile={userProfile}/>
+                    <ProfileButton size={20} userProfile={getUserProfile(post.author)}/>
                     <strong style={{ color: 'black' }}>{getName(post.author)}</strong>
                     <div className='ms-auto d-flex gap-2'>
                         <span>{post.date}</span>
