@@ -73,12 +73,13 @@ function PostWritePage() {
         if (editPost) {
             updatePost(postData);
             alert("게시글이 수정되었습니다.");
+            navigate(`/teams/${teamId}/detail/${editPost.id}`)
         } else {
             addPost(postData);
             alert("게시글이 등록되었습니다.");
+            navigate(`/teams/${teamId}`);
         }
 
-        navigate(`/teams/${teamId}`);
     };
 
     const handleCancel = () => {
