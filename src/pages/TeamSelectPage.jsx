@@ -1,10 +1,12 @@
+import { useState } from "react";
 import useAccountStore from "../store/useAccountStore";
 import useTeamStore from "../store/useTeamStore";
-import { EmojiSmile, PeopleFill, PlusCircle, Search } from 'react-bootstrap-icons'
-import { Alert, Badge, Button } from 'react-bootstrap';
+import { EmojiSmile, PeopleFill, PlusCircle, Search, ArrowRightShort } from 'react-bootstrap-icons'
+import { Alert, Badge, Button, Modal, Collapse, Form } from 'react-bootstrap';
 import '../css/TeamSelectPage.css'
 import { useNavigate } from "react-router";
 import { TEAM_CATEGORIES } from "../data/teamData";
+import TeamCreateForm from "../components/TeamCreateForm";
 
 function TeamSelectPage() {
     const navigate = useNavigate();
@@ -20,6 +22,22 @@ function TeamSelectPage() {
 
     // 내가 아직 가입하지 않은 "참여 가능한 다른 팀 목록" 필터링
     const availableTeams = allTeams.filter(team => !team.members.includes(user?.email));
+
+    // 팀 참여 모달 열림/닫힘 상태 관리
+    const [ showJoinModal, setShowJoinModal ] = useState(false);
+
+    // 컴포넌트 내부에 상태 추가
+    const [ showCreateForm, setShowCreateForm ] = useState(false);
+    // 컴포넌트로 내릴 생성 로직 핸들러
+    const handleCreateTeamSubmit = (name, category, desc) => {
+        // 전역 스토어 액션 실행
+        createTeam(name, user.email, category, desc);
+
+        // 최신 ID 확보 및 자동 입장
+        const activeTeamId = useTeamStore.getState().currentTeamId;
+        alert(`'${name}' 워크스페이스가 성공적으로 개설되었습니다!`);
+        navigate(`/teams/${activeTeamId}`);
+    };
 
     function handleTeamClick(id) {
         setCurrentTeamId(id);
@@ -49,42 +67,27 @@ function TeamSelectPage() {
         navigate(`/teams/${activeTeamId}`);
     };
 
-    // 존재하는 팀 목록을 보여주고 가입을 묻는 핸들러
-    const handleJoinTeamListFlow = () => {
-        if (availableTeams.length === 0) {
-            alert("현재 가입 가능한 새로운 팀이 없습니다. 모든 팀에 이미 참여 중이거나 팀이 존재하지 않습니다.");
-            return;
-        }
-
-        // 존재하는 가입 가능 팀 목록을 문자열로 생성 (예: "1: Essage 디자인팀\n2: 마케팅팀")
-        const teamListStr = availableTeams
-            .map(team => `[ID: ${team.id}] ${team.name} (${team.category})`)
-            .join("\n");
-
-        const inputTeamId = prompt(
-            `참여하고 싶은 팀의 ID(숫자)를 입력하세요:\n\n${teamListStr}`
-        );
-
-        if (!inputTeamId || !inputTeamId.trim()) return;
-
-        const numericId = Number(inputTeamId);
-        const targetTeam = availableTeams.find(t => t.id === numericId);
-
-        if (!targetTeam) {
-            alert("가입 가능한 목록에 있는 올바른 팀 ID를 입력해 주세요.");
-            return;
-        }
-
-        // 클릭(입력) 시 가입하겠냐는 컨펌 메시지 띄우기
+    // 모달 내부에서 특정 팀을 클릭했을 때 작동하는 가입 핸들러
+    const handleSelectTeamToJoin = (targetTeam) => {
         const isConfirm = window.confirm(`'${targetTeam.name}' 워크스페이스에 참여하시겠습니까?`);
 
         if (isConfirm) {
-            addMemberToTeam(numericId, user.email);
-            setCurrentTeamId(numericId);
+            addMemberToTeam(targetTeam.id, user.email);
+            setCurrentTeamId(targetTeam.id);
 
+            setShowJoinModal(false); // 모달 닫기
             alert(`'${targetTeam.name}' 워크스페이스에 성공적으로 가입되었습니다!`);
-            navigate(`/teams/${numericId}`);
+            navigate(`/teams/${targetTeam.id}`);
         }
+    };
+
+    // [존재하는 팀 탐색 및 참여] 버튼 클릭 시 호출
+    const handleOpenJoinModal = () => {
+        if (availableTeams.length === 0) {
+            alert("현재 가입 가능한 새로운 팀이 없습니다. 모든 팀에 이미 참여 중이거나 등록된 팀이 없습니다.");
+            return;
+        }
+        setShowJoinModal(true);
     };
 
     return (
@@ -110,6 +113,13 @@ function TeamSelectPage() {
                     </Alert>
                 </div>
 
+                {/* 공통으로 사용하는 접이식 개설 폼 배치 (딱 한 번만 선언!) */}
+                <TeamCreateForm
+                    isOpen={showCreateForm}
+                    onClose={() => setShowCreateForm(false)}
+                    onCreate={handleCreateTeamSubmit}
+                />
+
                 {/* 핵심 분기: 가입된 팀이 0개일 때와 있을 때의 화면 제어 */}
                 {myTeams.length === 0 ? (
 
@@ -123,10 +133,10 @@ function TeamSelectPage() {
                             Essage를 시작하려면 워크스페이스를 직접 개설하거나,<br />
                             현재 개설된 다른 팀 목록을 확인해 가입해 보세요.
                         </p>
-                        <Button variant="primary" className="w-100 py-2.5 fw-semibold rounded-3" onClick={handleCreateTeamFlow}>
+                        <Button variant="primary" className="w-100 py-2.5 fw-semibold rounded-3" onClick={() => setShowCreateForm(true)}>
                             첫 번째 워크스페이스 생성하기
                         </Button>
-                        <Button variant="outline-secondary" className="w-100 py-2.5 fw-semibold rounded-3 my-2" onClick={handleJoinTeamListFlow}>
+                        <Button variant="outline-secondary" className="w-100 py-2.5 fw-semibold rounded-3 my-2" onClick={handleOpenJoinModal}>
                             <Search size={16} className="me-1" /> 존재하는 팀 탐색 및 참여
                         </Button>
                     </div>
@@ -134,11 +144,11 @@ function TeamSelectPage() {
                 ) : (
                     /* 2. 가입된 팀 목록 카드 리스트 출력 */
                     <div className="w-100">
-                        <div className="d-flex justify-content-end mb-4 mx-auto" style={{ maxWidth: "900px" }}>
-                            <Button variant="outline-secondary" className="btn-sm fw-medium rounded-3 px-3 py-2 mx-2" onClick={handleJoinTeamListFlow}>
+                        <div className="d-flex justify-content-end mb-4 mx-auto pe-3" style={{ maxWidth: "900px" }}>
+                            <Button variant="outline-secondary" className="btn-sm fw-medium rounded-3 px-3 py-2 mx-2" onClick={handleOpenJoinModal}>
                                 <Search size={14} className="me-1" /> 다른 팀 참여하기
                             </Button>
-                            <Button variant="outline-primary" className="btn-sm fw-medium rounded-3 px-3 py-2" onClick={handleCreateTeamFlow}>
+                            <Button variant="outline-primary" className="btn-sm fw-medium rounded-3 px-3 py-2" onClick={() => setShowCreateForm(true)}>
                                 + 새 워크스페이스 개설
                             </Button>
                         </div>
@@ -191,6 +201,49 @@ function TeamSelectPage() {
                     </div>
                 )}
 
+                {/* ================= ✨ 팀 탐색 및 참여 모달 추가 ================= */}
+                <Modal show={showJoinModal} onHide={() => setShowJoinModal(false)} centered scrollable>
+                    <Modal.Header closeButton className="border-0 pb-0">
+                        <Modal.Title className="fw-bold fs-5 w-100 text-center mt-2">참여 가능한 팀 목록</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body className="px-4 py-3">
+                        <p className="text-muted small text-center mb-3">가입하고 싶은 워크스페이스를 선택해 주세요.</p>
+                        <div className="d-flex flex-column gap-2">
+                            {availableTeams.map((team) => (
+                                <button
+                                    key={team.id}
+                                    type="button"
+                                    className="w-100 text-start p-3 border rounded-3 bg-body hover-shadow d-flex align-items-center justify-content-between transition-all"
+                                    onClick={() => handleSelectTeamToJoin(team)}
+                                    style={{ transition: 'all 0.2s' }}
+                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--bs-tertiary-bg)'}
+                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                                >
+                                    <div style={{ minWidth: 0, flex: 1 }} className="pe-3">
+                                        <div className="d-flex align-items-center gap-2 mb-1">
+                                            <span className="fw-bold text-dark">{team.name}</span>
+                                            <Badge pill bg="secondary" style={{ fontSize: '10px' }}>{team.category}</Badge>
+                                        </div>
+                                        <div className="text-muted small text-truncate">{team.description}</div>
+                                    </div>
+                                    <div
+                                        className="text-primary fw-bold d-flex align-items-center small"
+                                        style={{ flexShrink: 0, whiteSpace: 'nowrap' }}
+                                    >
+                                        가입 <ArrowRightShort size={18} />
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    </Modal.Body>
+
+                    <Modal.Footer className="border-0 justify-content-center pb-4">
+                        <Button variant="secondary" className="rounded-3 px-4 btn-sm" onClick={() => setShowJoinModal(false)}>
+                            닫기
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div >
         </>
     );
