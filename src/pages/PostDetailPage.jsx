@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useState, useEffect, useRef } from 'react';
 import usePostStore from '../store/usePostStore';
 import useCommentStore from '../store/useCommentStore';
-import { HandThumbsUp, PersonCircle } from 'react-bootstrap-icons';
+import { HandThumbsUp, PersonCircle, Download } from 'react-bootstrap-icons';
 import useAccountStore from '../store/useAccountStore';
 
 import ProfileButton from '../components/ProfileButton'
@@ -59,6 +59,7 @@ function PostDetailPage() {
 
     // 최초 1회 조회수 증가
     useEffect(() => {
+        if (!post) return;
         if (!hasViewed.current) {
             increaseViews(post.id);
             hasViewed.current = true;
@@ -121,12 +122,32 @@ function PostDetailPage() {
                 </div>
 
                 <hr />
-
                 {
                     post.paragraphs.map((paragraph, index) => (
                         <p className="post-content" key={index}>{paragraph}</p>
                     ))
                 }
+                {post.files?.length > 0 && (
+                    <div className="attach-box">
+                        <strong>첨부파일</strong>
+                        
+                            {post.files.map((file, index) => (
+                                <div key={index} className="attach-file">
+                                    <span>{file.name}</span>
+                                    
+                                    <button className="btn-download" onClick={() => {
+                                        const url = URL.createObjectURL(file);
+                                        const a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = file.name;
+                                        a.click();
+                                        URL.revokeObjectURL(url);
+                                    }}>
+                                        <Download />다운로드 </button>
+                                </div>
+                            ))}
+                        </div>
+                )}
                 {post.author === user?.email && (
                     <div className='post-actions'>
 
