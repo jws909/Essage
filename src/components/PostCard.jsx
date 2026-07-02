@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router-dom';
 import '../css/PostCard.css'
 import { Badge } from 'react-bootstrap';
 import useAccountStore from "../store/useAccountStore";

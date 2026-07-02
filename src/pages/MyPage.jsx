@@ -101,7 +101,7 @@ function MyPage() {
                                     title={profile.label}
                                 >
                                     <img
-                                        src={profile.path}
+                                        src={import.meta.env.BASE_URL + profile.path}
                                         alt={profile.label}
                                         className={`rounded-circle bg-light border img-fluid p-2 ${userProfile?.id === profile.id ? 'border-primary border-3 shadow-sm' : ''
                                             }`}

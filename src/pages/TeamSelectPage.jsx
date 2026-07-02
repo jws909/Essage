@@ -4,7 +4,7 @@ import useTeamStore from "../store/useTeamStore";
 import { EmojiSmile, PeopleFill, PlusCircle, Search, ArrowRightShort } from 'react-bootstrap-icons'
 import { Alert, Badge, Button, Modal, Collapse, Form } from 'react-bootstrap';
 import '../css/TeamSelectPage.css'
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { TEAM_CATEGORIES } from "../data/teamData";
 import TeamCreateForm from "../components/TeamCreateForm";
 

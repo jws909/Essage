@@ -1,5 +1,5 @@
 import '../css/PostDetailPage.css'
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import usePostStore from '../store/usePostStore';
 import useCommentStore from '../store/useCommentStore';

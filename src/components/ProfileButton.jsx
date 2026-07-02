@@ -15,7 +15,7 @@ function ProfileButton({ size, userProfile, onClick }) {
             {userProfile ? (
                 /* 1. 프로필 이미지가 존재할 때 */
                 <img
-                    src={userProfile.path}
+                    src={import.meta.env.BASE_URL + userProfile.path}
                     alt={userProfile.label}
                     className="rounded-circle"
                 />

@@ -7,7 +7,7 @@ import LeftButton from '../components/LeftButton';
 import RightButton from '../components/RightButton';
 import { categoryColor, getCategoryLabel } from "../data/eventStyle";
 import useEventStore from '../store/useEventStore';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import useTeamStore from '../store/useTeamStore';
 import useAccountStore from '../store/useAccountStore';
 

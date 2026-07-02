@@ -1,7 +1,7 @@
 import '../css/NavigationBar.css'
 import { PencilSquare, ColumnsGap } from 'react-bootstrap-icons';
 import { Container, Nav, Navbar, Button, Dropdown } from 'react-bootstrap';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import useAccountStore from '../store/useAccountStore';
 import useTeamStore from '../store/useTeamStore';
 

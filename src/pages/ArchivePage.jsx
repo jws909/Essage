@@ -10,7 +10,7 @@ import useArchiveStore from "../store/useArchiveStore";
 import useAccountStore from "../store/useAccountStore";
 import FileCard from "../components/FileCard";
 
-import { useParams } from "react-router"
+import { useParams } from "react-router-dom"
 
 function ArchivePage() {
     // 탭 상태

@@ -4,7 +4,7 @@ import Alert from 'react-bootstrap/Alert';
 import React, { useEffect, useState } from "react";
 import PostCard from '../components/PostCard';
 import usePostStore from '../store/usePostStore'
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import useTeamStore from '../store/useTeamStore';
 import useAccountStore from '../store/useAccountStore';
 

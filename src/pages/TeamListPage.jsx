@@ -1,4 +1,4 @@
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import '../css/TeamListPage.css'
 import useAccountStore from '../store/useAccountStore';
 import useTeamStore from '../store/useTeamStore';

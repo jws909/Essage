@@ -1,6 +1,6 @@
 import '../css/SignupPage.css'
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router-dom';
 import useAccountStore from '../store/useAccountStore';
 
 
