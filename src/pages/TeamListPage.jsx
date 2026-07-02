@@ -23,7 +23,7 @@ function TeamListPage() {
 
     return (
         <div className="team-list-page">
-            <h1>{currentTeam.name}</h1>
+            <h1><span className='text-primary me-3'>{currentTeam.name}</span>팀원</h1>
             <div className="team-list-container my-5 gap-2">
                 {
                     currentTeam.members.map((email) => {

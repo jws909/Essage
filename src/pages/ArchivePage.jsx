@@ -10,6 +10,8 @@ import useArchiveStore from "../store/useArchiveStore";
 import useAccountStore from "../store/useAccountStore";
 import FileCard from "../components/FileCard";
 
+import { useParams } from "react-router"
+
 function ArchivePage() {
     // 탭 상태
     const [tab, setTab] = useState("rule");
@@ -25,6 +27,8 @@ function ArchivePage() {
     const [writer, setWriter] = useState(user?.name || "");
     const [size, setSize] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
+
+    const { teamId } = useParams();
 
     useEffect(() => {
         if (user) { setWriter(user.name); }
@@ -55,6 +59,7 @@ function ArchivePage() {
 
         addFile({
             id: lastId + 1,
+            teamId: teamId,
             title,
             writer,
             size,
@@ -172,7 +177,7 @@ function ArchivePage() {
             {tab === "file" && (
                 <div className="content">
 
-                    {files
+                    {files.filter((file) => file.teamId === teamId)
                         // .slice()
                         // .reverse()
                         .map((file) => (
