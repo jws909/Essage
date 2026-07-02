@@ -99,13 +99,7 @@ function NavigationBar() {
                 <Nav className="d-none d-lg-flex gap-4 mx-auto">
                     <Nav.Link onClick={() => { navigate(locationBase) }}>홈</Nav.Link>
                     <Nav.Link onClick={() => { navigate(locationBase + "/calendar") }}>일정</Nav.Link>
-                    <Nav.Link onClick={() => {
-                        if (user) {
-                            navigate("/mypage");
-                        } else {
-                            navigate("/login");
-                        }
-                    }}>마이페이지</Nav.Link>
+                    <Nav.Link onClick={() => { navigate(locationBase + "/teamlist")}}>팀원</Nav.Link>
                     <Nav.Link onClick={() => { navigate(locationBase + "/archive") }}>자료실</Nav.Link>
                 </Nav>
 
@@ -130,7 +124,7 @@ function NavigationBar() {
                         <PencilSquare size={14} /> 글쓰기
                     </Button>
 
-                    <ProfileButton size={36} userProfile={userProfile}/>
+                    <ProfileButton size={36} userProfile={userProfile} onClick={()=> {navigate("/mypage")} }/>
                 </div>
 
             </Container>

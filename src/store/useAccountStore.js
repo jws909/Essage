@@ -69,6 +69,14 @@ const useAccountStore = create(
 
                 return account ? account.name : null;
             },
+
+            // email로 bio알아내기
+            getBio: (email) => {
+                const { accounts } = get();
+                const account = accounts.find(acc => acc.email === email);
+
+                return account ? account.bio : null;
+            }
         }),
         {
             name: "account-storage", // localStorage에 저장될 key

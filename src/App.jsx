@@ -18,6 +18,7 @@ import TeamSelectPage from './pages/TeamSelectPage';
 
 import useAccountStore from './store/useAccountStore';
 import useTeamStore from './store/useTeamStore';
+import TeamListPage from './pages/TeamListPage';
 
 
 function App() {
@@ -87,6 +88,7 @@ function App() {
             <Route path='/teams/:teamId/write/:id' element={<PostWritePage />} />
             <Route path='/teams/:teamId/archive' element={<ArchivePage />} />
             <Route path='/teams/:teamId/calendar' element={<CalendarPage />} />
+            <Route path='/teams/:teamId/teamlist' element={<TeamListPage />} />
             <Route path='/mypage' element={<MyPage />} />
 
           </Routes>
