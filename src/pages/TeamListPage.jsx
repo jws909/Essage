@@ -26,10 +26,10 @@ function TeamListPage() {
             <h1><span className='text-primary me-3'>{currentTeam.name}</span>팀원</h1>
             <div className="team-list-container my-5 gap-2">
                 {
-                    currentTeam.members.map((email) => {
+                    currentTeam.members.map((email, index) => {
 
                         return (
-                            <div className="team-card">
+                            <div className="team-card" key={index}>
                                 <ProfileButton size={45} userProfile={getUserProfile(email)} />
                                 <div>
                                     <h3>{getName(email)}</h3>
